@@ -22,22 +22,22 @@ export function Belajar() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--color-text)' }}>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
           Pusat Belajar
         </h1>
-        <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+        <p className="text-xs sm:text-sm mt-0.5 text-slate-500 dark:text-slate-400">
           Pilih mata kuliah untuk mengakses materi catatan, slide, dan latihan soal.
         </p>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <Skeleton className="h-28 rounded-xl" />
-          <Skeleton className="h-28 rounded-xl" />
-          <Skeleton className="h-28 rounded-xl" />
-          <Skeleton className="h-28 rounded-xl" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Skeleton className="h-28 rounded-2xl" />
+          <Skeleton className="h-28 rounded-2xl" />
+          <Skeleton className="h-28 rounded-2xl" />
+          <Skeleton className="h-28 rounded-2xl" />
         </div>
       ) : courses.length === 0 ? (
         <EmptyState
@@ -46,40 +46,27 @@ export function Belajar() {
           description="Admin belum menambahkan mata kuliah untuk kelas ini."
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {courses.map((course) => (
             <Link
               key={course.id}
               to={`/belajar/${course.id}`}
-              className="p-4 rounded-xl border flex items-center justify-between gap-3 transition-all hover:shadow-md cursor-pointer group"
-              style={{
-                backgroundColor: 'var(--color-card)',
-                borderColor: 'var(--color-border)',
-              }}
+              className="liquid-glass-card p-5 rounded-2xl flex items-center justify-between gap-3 group relative overflow-hidden cursor-pointer"
             >
-              <div className="flex items-start gap-3">
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 font-bold text-white"
-                  style={{ backgroundColor: 'var(--color-accent)' }}
-                >
-                  <BookOpen size={18} />
+              <div className="flex items-start gap-3.5">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 font-bold text-white shadow-[0_4px_16px_rgba(79,110,247,0.35)] bg-gradient-to-tr from-blue-600 to-indigo-500 border border-white/20 transition-transform duration-200 group-hover:scale-105">
+                  <BookOpen size={19} className="stroke-[2.2]" />
                 </div>
                 <div>
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded"
-                    style={{
-                      backgroundColor: 'var(--color-bg-secondary)',
-                      color: 'var(--color-accent)',
-                    }}
-                  >
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md">
                     {course.kode}
                   </span>
-                  <h3 className="font-bold text-base mt-1 group-hover:text-[var(--color-accent)] transition-colors" style={{ color: 'var(--color-text)' }}>
+                  <h3 className="font-bold text-base mt-1.5 text-slate-900 dark:text-slate-100 group-hover:text-[var(--color-accent)] transition-colors">
                     {course.nama}
                   </h3>
                   {course.dosen && (
-                    <div className="flex items-center gap-1 text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
-                      <User size={12} />
+                    <div className="flex items-center gap-1.5 text-xs mt-1 text-slate-500 dark:text-slate-400">
+                      <User size={12} className="shrink-0 text-slate-400" />
                       <span>{course.dosen}</span>
                     </div>
                   )}
@@ -87,8 +74,8 @@ export function Belajar() {
               </div>
 
               <ChevronRight
-                size={18}
-                className="text-gray-400 group-hover:translate-x-1 transition-transform shrink-0"
+                size={19}
+                className="text-slate-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all shrink-0 stroke-[2.2]"
               />
             </Link>
           ))}

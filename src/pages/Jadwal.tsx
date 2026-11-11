@@ -145,10 +145,10 @@ export function Jadwal() {
       {/* Page Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--color-text)' }}>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
             Jadwal Kuliah & Ujian
           </h1>
-          <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+          <p className="text-xs sm:text-sm mt-0.5 text-slate-500 dark:text-slate-400">
             Jadwal bersama kelas satu semester ini.
           </p>
         </div>
@@ -157,11 +157,10 @@ export function Jadwal() {
           type="button"
           onClick={handleExportAllIcs}
           disabled={schedules.length === 0}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-50"
-          style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-white/50 dark:bg-white/[0.06] hover:bg-white/90 dark:hover:bg-white/[0.12] border border-white/60 dark:border-white/[0.08] backdrop-blur-md shadow-xs transition-all active:scale-95 disabled:opacity-40 text-slate-800 dark:text-slate-200 cursor-pointer"
           title="Unduh seluruh jadwal kuliah ke kalender"
         >
-          <Download size={14} />
+          <Download size={14} className="stroke-[2.2]" />
           <span>Ekspor Jadwal (.ics)</span>
         </button>
       </div>
@@ -170,8 +169,8 @@ export function Jadwal() {
       {exams.length > 0 && (
         <section className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <GraduationCap size={18} style={{ color: 'var(--color-accent)' }} />
-            <h2 className="text-base font-bold" style={{ color: 'var(--color-text)' }}>
+            <GraduationCap size={18} className="text-blue-500 stroke-[2.2]" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Jadwal Ujian (UTS / UAS)
             </h2>
           </div>
@@ -180,31 +179,27 @@ export function Jadwal() {
             {exams.map((exam) => (
               <div
                 key={exam.id}
-                className="p-4 rounded-xl border flex items-center justify-between gap-3"
-                style={{
-                  backgroundColor: 'var(--color-card)',
-                  borderColor: 'var(--color-border)',
-                }}
+                className="liquid-glass-card p-4 rounded-xl flex items-center justify-between gap-3 group"
               >
                 <div>
                   <div className="flex items-center gap-2">
                     <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                      className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${
                         exam.jenis === 'uts'
-                          ? 'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400'
-                          : 'bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-400'
+                          ? 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30'
+                          : 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30'
                       }`}
                     >
                       {exam.jenis.toUpperCase()}
                     </span>
-                    <h3 className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
+                    <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">
                       {exam.courses?.nama || 'Mata Kuliah'}
                     </h3>
                   </div>
 
-                  <div className="flex items-center gap-2.5 mt-1.5 text-xs text-gray-500 flex-wrap">
+                  <div className="flex items-center gap-2.5 mt-1.5 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
                     <span className="flex items-center gap-1">
-                      <CalendarIcon size={12} />
+                      <CalendarIcon size={12} className="text-blue-500" />
                       <span>{formatTanggal(exam.tanggal)}</span>
                     </span>
                     {exam.jam && (
@@ -223,13 +218,13 @@ export function Jadwal() {
                 </div>
 
                 <div className="flex flex-col items-end gap-1.5 shrink-0">
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-900">
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 backdrop-blur-md shadow-xs">
                     {getCountdown(exam.tanggal)}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleExportExamIcs(exam)}
-                    className="text-[11px] font-semibold text-[var(--color-accent)] hover:underline flex items-center gap-1"
+                    className="text-[11px] font-semibold text-[var(--color-accent)] hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <CalendarPlus size={12} />
                     <span>+ Kalender</span>
@@ -242,7 +237,7 @@ export function Jadwal() {
       )}
 
       {/* Mobile: Horizontal Day Tabs (Senin - Sabtu) */}
-      <div className="md:hidden sticky top-14 z-20 -mx-4 px-4 py-2 bg-[var(--color-bg)]/90 backdrop-blur-md border-b border-[var(--color-border)] overflow-x-auto scrollbar-none flex gap-1.5">
+      <div className="md:hidden sticky top-16 z-20 -mx-2 px-2 py-2 liquid-glass-dock rounded-2xl overflow-x-auto scrollbar-none flex gap-1 shadow-sm">
         {HARI_LIST.map(({ id, label }) => {
           const isSelected = selectedDay === id
           const isTodayDay = today === id
@@ -251,15 +246,11 @@ export function Jadwal() {
               key={id}
               type="button"
               onClick={() => setSelectedDay(id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 isSelected
-                  ? 'text-white shadow-sm'
-                  : 'hover:bg-gray-100 dark:hover:bg-neutral-800'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10'
               }`}
-              style={{
-                backgroundColor: isSelected ? 'var(--color-accent)' : 'transparent',
-                color: isSelected ? '#ffffff' : 'var(--color-text-secondary)',
-              }}
             >
               {label} {isTodayDay && '•'}
             </button>
@@ -270,8 +261,8 @@ export function Jadwal() {
       {/* Content */}
       {loading ? (
         <div className="flex flex-col gap-3">
-          <Skeleton className="h-28 w-full rounded-xl" />
-          <Skeleton className="h-28 w-full rounded-xl" />
+          <Skeleton className="h-28 w-full rounded-2xl" />
+          <Skeleton className="h-28 w-full rounded-2xl" />
         </div>
       ) : (
         <>
@@ -290,13 +281,9 @@ export function Jadwal() {
             {HARI_LIST.map(({ id, label }) => (
               <div
                 key={id}
-                className={`p-4 rounded-xl border flex flex-col gap-3 transition-colors ${
-                  id === today ? 'ring-2 ring-[var(--color-accent)]' : ''
+                className={`liquid-glass-card p-4 rounded-2xl flex flex-col gap-3 transition-all ${
+                  id === today ? 'border-blue-500/50 shadow-[0_0_20px_rgba(79,110,247,0.2)]' : ''
                 }`}
-                style={{
-                  backgroundColor: 'var(--color-card)',
-                  borderColor: 'var(--color-border)',
-                }}
               >
                 <DaySchedule
                   hari={id}

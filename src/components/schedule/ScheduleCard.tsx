@@ -60,41 +60,28 @@ export function ScheduleCard({ schedule }: ScheduleCardProps) {
   }
 
   return (
-    <div
-      className="p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:shadow-sm"
-      style={{
-        backgroundColor: 'var(--color-card)',
-        borderColor: 'var(--color-border)',
-      }}
-    >
-      <div className="flex items-start gap-3">
-        <div
-          className="shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold font-mono tracking-tight flex items-center gap-1.5"
-          style={{
-            backgroundColor: 'var(--color-bg-secondary)',
-            color: 'var(--color-accent)',
-            border: '1px solid var(--color-border)',
-          }}
-        >
-          <Clock size={13} />
+    <div className="liquid-glass-card p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 group">
+      <div className="flex items-start gap-3.5">
+        <div className="shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold font-mono tracking-tight flex items-center gap-1.5 bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md shadow-xs">
+          <Clock size={13} className="stroke-[2.2]" />
           <span>{timeStr}</span>
         </div>
 
         <div>
-          <h4 className="font-bold text-sm sm:text-base leading-snug" style={{ color: 'var(--color-text)' }}>
+          <h4 className="font-bold text-sm sm:text-base leading-snug text-slate-900 dark:text-slate-100">
             {schedule.courses?.nama || 'Mata Kuliah'}
           </h4>
 
-          <div className="flex items-center gap-3 mt-1 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+          <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-600 dark:text-slate-400">
             {schedule.ruang && (
-              <span className="flex items-center gap-1 font-medium">
-                <MapPin size={12} className="text-gray-400" />
+              <span className="flex items-center gap-1 font-medium bg-slate-200/50 dark:bg-white/[0.05] px-2 py-0.5 rounded-md border border-slate-300/40 dark:border-white/[0.06]">
+                <MapPin size={12} className="text-blue-500 shrink-0" />
                 <span>{schedule.ruang}</span>
               </span>
             )}
             {schedule.dosen && (
               <span className="flex items-center gap-1">
-                <User size={12} className="text-gray-400" />
+                <User size={12} className="text-slate-400 shrink-0" />
                 <span>{schedule.dosen}</span>
               </span>
             )}
@@ -106,12 +93,11 @@ export function ScheduleCard({ schedule }: ScheduleCardProps) {
         <button
           type="button"
           onClick={handleExportIcs}
-          className="text-xs font-semibold inline-flex items-center gap-1 hover:underline cursor-pointer"
-          style={{ color: 'var(--color-accent)' }}
+          className="text-xs font-semibold inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/50 dark:bg-white/[0.06] hover:bg-white/90 dark:hover:bg-white/[0.12] text-[var(--color-accent)] border border-white/60 dark:border-white/[0.08] backdrop-blur-md shadow-xs transition-all active:scale-95 cursor-pointer"
           title="Ekspor Jadwal ke Kalender (.ics)"
         >
           <CalendarPlus size={14} />
-          <span className="hidden sm:inline">+ Kalender</span>
+          <span>+ Kalender</span>
         </button>
       </div>
     </div>

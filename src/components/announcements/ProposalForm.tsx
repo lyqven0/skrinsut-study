@@ -116,39 +116,29 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div
-        className="w-full max-w-lg rounded-2xl shadow-xl border overflow-hidden flex flex-col max-h-[90vh]"
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl animate-in fade-in duration-200">
+      <div className="w-full max-w-lg rounded-2xl shadow-2xl border border-white/60 dark:border-white/10 liquid-glass overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div
-          className="px-5 py-4 flex items-center justify-between border-b"
-          style={{ borderColor: 'var(--color-border)' }}
-        >
+        <div className="px-6 py-4 flex items-center justify-between border-b border-slate-200/60 dark:border-white/[0.08]">
           <div>
-            <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
               Usulkan Tugas Baru
             </h2>
-            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-              Akan ditinjau oleh admin sebelum ditampilkan di pengumuman.
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Akan ditinjau oleh admin sebelum ditampilkan di papan pengumuman.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
-            style={{ color: 'var(--color-text-secondary)' }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4 text-sm flex-1">
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 text-sm flex-1">
           {/* Honeypot field (hidden from real users) */}
           <div className="hidden" aria-hidden="true">
             <input
@@ -163,22 +153,21 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
 
           {/* Mata Kuliah */}
           <div>
-            <label className="block font-semibold mb-1" style={{ color: 'var(--color-text)' }}>
-              Mata Kuliah <span className="text-red-500">*</span>
+            <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-200">
+              Mata Kuliah <span className="text-rose-500">*</span>
             </label>
             <select
               value={courseId}
               onChange={(e) => setCourseId(e.target.value)}
               required
               disabled={loadingCourses}
-              className="w-full h-11 px-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] bg-transparent"
-              style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+              className="w-full h-11 px-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100"
             >
               <option value="" disabled>
                 {loadingCourses ? 'Memuat daftar mata kuliah...' : '-- Pilih Mata Kuliah --'}
               </option>
               {courses.map((c) => (
-                <option key={c.id} value={c.id} className="dark:bg-neutral-900">
+                <option key={c.id} value={c.id} className="dark:bg-neutral-900 text-slate-900 dark:text-slate-100">
                   {c.nama} ({c.kode})
                 </option>
               ))}
@@ -187,8 +176,8 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
 
           {/* Judul Tugas */}
           <div>
-            <label className="block font-semibold mb-1" style={{ color: 'var(--color-text)' }}>
-              Judul Tugas <span className="text-red-500">*</span>
+            <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-200">
+              Judul Tugas <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
@@ -197,48 +186,45 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
               maxLength={200}
               placeholder="Contoh: Tugas 2 Query SQL & Relasi"
               required
-              className="w-full h-11 px-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] bg-transparent"
-              style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+              className="w-full h-11 px-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100"
             />
-            <span className="text-[11px] block text-right mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-[11px] block text-right mt-1 text-slate-400">
               {judul.length}/200
             </span>
           </div>
 
           {/* Deadline: Tanggal + Jam */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block font-semibold mb-1" style={{ color: 'var(--color-text)' }}>
-                Tanggal Deadline <span className="text-red-500">*</span>
+              <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-200">
+                Tanggal Deadline <span className="text-rose-500">*</span>
               </label>
               <input
                 type="date"
                 value={tanggal}
                 onChange={(e) => setTanggal(e.target.value)}
                 required
-                className="w-full h-11 px-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] bg-transparent"
-                style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                className="w-full h-11 px-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100"
               />
             </div>
 
             <div>
-              <label className="block font-semibold mb-1" style={{ color: 'var(--color-text)' }}>
-                Jam Deadline <span className="text-xs font-normal text-gray-500">(opsional, default 23:59 WIB)</span>
+              <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-200">
+                Jam Deadline <span className="text-xs font-normal text-slate-400">(opsional, default 23:59 WIB)</span>
               </label>
               <input
                 type="time"
                 value={jam}
                 onChange={(e) => setJam(e.target.value)}
-                className="w-full h-11 px-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] bg-transparent"
-                style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                className="w-full h-11 px-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100"
               />
             </div>
           </div>
 
           {/* Catatan Singkat */}
           <div>
-            <label className="block font-semibold mb-1" style={{ color: 'var(--color-text)' }}>
-              Catatan Singkat <span className="text-xs font-normal text-gray-500">(opsional)</span>
+            <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-200">
+              Catatan Singkat <span className="text-xs font-normal text-slate-400">(opsional)</span>
             </label>
             <textarea
               value={catatan}
@@ -246,18 +232,17 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
               maxLength={1000}
               rows={3}
               placeholder="Contoh: Dikumpulkan dalam format PDF via Google Classroom, kerja kelompok maks 3 orang."
-              className="w-full p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] bg-transparent resize-none"
-              style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+              className="w-full p-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100 resize-none"
             />
-            <span className="text-[11px] block text-right mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-[11px] block text-right mt-1 text-slate-400">
               {catatan.length}/1000
             </span>
           </div>
 
           {/* Nama Penambah */}
           <div>
-            <label className="block font-semibold mb-1" style={{ color: 'var(--color-text)' }}>
-              Nama Kamu <span className="text-xs font-normal text-gray-500">(opsional/bebas)</span>
+            <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-200">
+              Nama Kamu <span className="text-xs font-normal text-slate-400">(opsional/bebas)</span>
             </label>
             <input
               type="text"
@@ -265,19 +250,17 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
               onChange={(e) => setDitambahkanOleh(e.target.value)}
               maxLength={50}
               placeholder="Contoh: Budi (Kormat)"
-              className="w-full h-11 px-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] bg-transparent"
-              style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+              className="w-full h-11 px-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100"
             />
           </div>
 
           {/* Buttons */}
-          <div className="pt-3 flex items-center justify-end gap-3 border-t" style={{ borderColor: 'var(--color-border)' }}>
+          <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-200/60 dark:border-white/[0.08]">
             <button
               type="button"
               onClick={onClose}
               disabled={submitting}
-              className="px-4 h-11 rounded-lg font-medium border hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
-              style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+              className="px-4 h-11 rounded-xl font-medium border border-slate-300/60 dark:border-white/10 hover:bg-white/40 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
             >
               Batal
             </button>
@@ -285,8 +268,7 @@ export function ProposalForm({ isOpen, onClose, onSuccess }: ProposalFormProps) 
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 h-11 rounded-lg font-semibold text-white flex items-center gap-2 shadow-sm transition-opacity disabled:opacity-50"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              className="liquid-button-primary px-5 h-11 rounded-xl font-semibold text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
             >
               {submitting ? (
                 <>

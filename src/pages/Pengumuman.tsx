@@ -36,10 +36,10 @@ export function Pengumuman() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight" style={{ color: 'var(--color-text)' }}>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
             Papan Pengumuman Tugas
           </h1>
-          <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+          <p className="text-xs sm:text-sm mt-0.5 text-slate-500 dark:text-slate-400">
             Daftar tugas aktif yang sudah disetujui admin, diurutkan dari deadline terdekat.
           </p>
         </div>
@@ -47,10 +47,9 @@ export function Pengumuman() {
         <button
           type="button"
           onClick={() => setIsFormOpen(true)}
-          className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-transform active:scale-95"
-          style={{ backgroundColor: 'var(--color-accent)' }}
+          className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-white liquid-button-primary cursor-pointer"
         >
-          <Plus size={16} />
+          <Plus size={16} className="stroke-[2.5]" />
           <span>Usulkan Tugas</span>
         </button>
       </div>
@@ -58,9 +57,9 @@ export function Pengumuman() {
       {/* Main List / State */}
       {loading ? (
         <div className="flex flex-col gap-3">
-          <Skeleton className="h-32 w-full rounded-xl" />
-          <Skeleton className="h-32 w-full rounded-xl" />
-          <Skeleton className="h-32 w-full rounded-xl" />
+          <Skeleton className="h-32 w-full rounded-2xl" />
+          <Skeleton className="h-32 w-full rounded-2xl" />
+          <Skeleton className="h-32 w-full rounded-2xl" />
         </div>
       ) : announcements.length === 0 ? (
         <EmptyState
@@ -80,8 +79,7 @@ export function Pengumuman() {
       <button
         type="button"
         onClick={() => setIsFormOpen(true)}
-        className="sm:hidden fixed bottom-20 right-4 z-30 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg active:scale-95 transition-transform"
-        style={{ backgroundColor: 'var(--color-accent)' }}
+        className="sm:hidden fixed bottom-20 right-4 z-30 w-14 h-14 rounded-full flex items-center justify-center text-white liquid-button-primary shadow-[0_8px_25px_rgba(79,110,247,0.5)] cursor-pointer"
         aria-label="Usulkan Tugas Baru"
       >
         <Plus size={24} className="stroke-[2.5]" />

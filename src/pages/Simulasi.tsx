@@ -207,7 +207,7 @@ export function Simulasi() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold mb-2" style={{ color: 'var(--color-text)' }}>
+              <label className="block text-xs font-bold mb-2 text-slate-800 dark:text-slate-200">
                 Jumlah Soal
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -216,10 +216,10 @@ export function Simulasi() {
                     key={cnt}
                     type="button"
                     onClick={() => setQuestionCount(cnt)}
-                    className={`h-10 rounded-lg text-xs font-bold border transition-colors ${
+                    className={`h-10 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                       questionCount === cnt
-                        ? 'bg-[var(--color-accent)] text-white border-transparent'
-                        : 'border-gray-200 dark:border-neutral-800 text-gray-600 dark:text-gray-300'
+                        ? 'bg-blue-600 text-white border-transparent shadow-md'
+                        : 'border-slate-300/60 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10'
                     }`}
                   >
                     {cnt} Soal
@@ -228,7 +228,7 @@ export function Simulasi() {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl border bg-gray-50 dark:bg-neutral-800/40 text-xs flex items-start gap-2.5 text-gray-600 dark:text-gray-400">
+            <div className="p-4 rounded-xl border border-blue-500/20 bg-blue-500/10 dark:bg-blue-500/15 text-xs flex items-start gap-2.5 text-blue-900 dark:text-blue-200 backdrop-blur-md">
               <AlertCircle size={16} className="shrink-0 mt-0.5 text-blue-500" />
               <span>
                 Simulasi ini dirancang dengan antarmuka tenang dan fokus. Nilai dan pembahasan lengkap baru akan muncul setelah kamu menyelesaikan ujian.
@@ -238,8 +238,7 @@ export function Simulasi() {
             <button
               type="button"
               onClick={handleStartSimulation}
-              className="w-full h-12 rounded-xl text-sm font-bold text-white shadow-sm transition-transform active:scale-98 flex items-center justify-center gap-2"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              className="liquid-button-primary w-full h-12 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
               <Timer size={18} />
               <span>Mulai Simulasi ({durationMinutes} Menit)</span>
@@ -269,28 +268,22 @@ export function Simulasi() {
     return (
       <div className="flex flex-col gap-4 max-w-2xl mx-auto pb-12">
         {/* Top Floating Control Bar */}
-        <div
-          className="sticky top-14 z-20 -mx-4 px-4 py-3 border-b flex items-center justify-between backdrop-blur-md"
-          style={{
-            backgroundColor: 'var(--color-bg)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="sticky top-16 z-20 -mx-2 px-3 py-2.5 rounded-2xl liquid-glass-dock shadow-sm flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
+            <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
               Soal {currentIndex + 1} / {questions.length}
             </span>
-            <span className="text-xs text-gray-400 hidden sm:inline">
+            <span className="text-xs text-slate-400 hidden sm:inline">
               ({answeredCount} terjawab)
             </span>
           </div>
 
           {/* Countdown Clock */}
           <div
-            className={`px-3 py-1 rounded-lg font-mono font-bold text-sm flex items-center gap-1.5 border ${
+            className={`px-3 py-1 rounded-xl font-mono font-bold text-sm flex items-center gap-1.5 border backdrop-blur-md ${
               secondsRemaining < 300
-                ? 'bg-rose-50 text-rose-600 border-rose-300 animate-pulse dark:bg-rose-950 dark:border-rose-800'
-                : 'bg-gray-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-200 border-transparent'
+                ? 'bg-rose-500/20 text-rose-700 dark:text-rose-300 border-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.4)]'
+                : 'bg-white/60 dark:bg-white/10 text-slate-800 dark:text-slate-200 border-white/60 dark:border-white/10 shadow-xs'
             }`}
           >
             <Timer size={15} />
@@ -304,29 +297,28 @@ export function Simulasi() {
                 handleFinishSimulation()
               }
             }}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold text-white shadow-sm"
-            style={{ backgroundColor: '#10b981' }}
+            className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-all active:scale-95 cursor-pointer"
           >
             Kumpulkan Ujian
           </button>
         </div>
 
         {/* Question Numbers Grid (Swipeable / Clickable) */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none py-1">
           {questions.map((_, idx) => {
             const hasAnswer = userAnswers[idx] !== undefined
             const isFlag = flaggedQuestions[idx]
             const isCurrent = idx === currentIndex
 
-            let btnStyle = 'border-gray-200 dark:border-neutral-800 text-gray-500'
+            let btnStyle = 'border-slate-300/60 dark:border-white/10 text-slate-500 dark:text-slate-400 bg-white/40 dark:bg-white/[0.04]'
             if (hasAnswer) {
-              btnStyle = 'bg-blue-50 border-blue-400 text-[var(--color-accent)] dark:bg-blue-950/40'
+              btnStyle = 'bg-blue-500/20 border-blue-500/40 text-blue-700 dark:text-blue-300 shadow-xs'
             }
             if (isFlag) {
-              btnStyle = 'bg-amber-50 border-amber-400 text-amber-600 dark:bg-amber-950/40'
+              btnStyle = 'bg-amber-500/20 border-amber-500/40 text-amber-700 dark:text-amber-300 shadow-xs'
             }
             if (isCurrent) {
-              btnStyle = 'ring-2 ring-[var(--color-accent)] font-bold text-white bg-[var(--color-accent)]'
+              btnStyle = 'ring-2 ring-blue-500 font-bold text-white bg-blue-600 border-blue-600 shadow-md'
             }
 
             return (
@@ -334,36 +326,30 @@ export function Simulasi() {
                 key={idx}
                 type="button"
                 onClick={() => setCurrentIndex(idx)}
-                className={`w-9 h-9 rounded-lg border text-xs font-semibold shrink-0 transition-all flex items-center justify-center relative cursor-pointer ${btnStyle}`}
+                className={`w-9 h-9 rounded-xl border text-xs font-semibold shrink-0 transition-all flex items-center justify-center relative cursor-pointer backdrop-blur-md ${btnStyle}`}
               >
                 <span>{idx + 1}</span>
                 {isFlag && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 absolute top-1 right-1" />
+                  <span className="w-2 h-2 rounded-full bg-amber-500 absolute top-1 right-1 shadow-[0_0_6px_rgba(245,158,11,0.8)]" />
                 )}
               </button>
             )
           })}
         </div>
 
-        {/* Question Box (Calm & Clean) */}
-        <div
-          className="p-5 rounded-2xl border flex flex-col gap-3 min-h-[120px]"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        {/* Question Box (Calm & Clean Liquid Glass) */}
+        <div className="liquid-glass-card p-6 rounded-2xl flex flex-col gap-3.5 min-h-[120px] relative overflow-hidden">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-[var(--color-accent)] uppercase">
+            <span className="font-bold text-[var(--color-accent)] uppercase px-2 py-0.5 rounded-md bg-blue-500/10 dark:bg-blue-400/10 border border-blue-500/20">
               Topik: {currentQ.topik}
             </span>
             <button
               type="button"
               onClick={() => toggleFlag(currentIndex)}
-              className={`text-xs font-semibold px-2 py-0.5 rounded cursor-pointer ${
+              className={`text-xs font-semibold px-2.5 py-1 rounded-lg border transition-all cursor-pointer ${
                 isFlagged
-                  ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'
-                  : 'text-gray-400 hover:text-gray-600'
+                  ? 'bg-amber-500/20 text-amber-800 dark:text-amber-300 border-amber-500/40 shadow-xs'
+                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 border-slate-300/40 dark:border-white/10'
               }`}
             >
               {isFlagged ? '★ Ditandai Ragu' : '☆ Tandai Ragu'}
@@ -372,7 +358,7 @@ export function Simulasi() {
 
           <KaTeXRenderer
             content={currentQ.pertanyaan}
-            className="text-base font-semibold leading-relaxed"
+            className="text-base font-semibold leading-relaxed text-slate-900 dark:text-slate-100"
           />
         </div>
 
@@ -386,23 +372,22 @@ export function Simulasi() {
                 key={key}
                 type="button"
                 onClick={() => handleSelectOption(key)}
-                className={`p-4 rounded-xl border text-left flex items-start gap-3 transition-all cursor-pointer min-h-[50px] ${
+                className={`liquid-glass-card p-4 rounded-xl text-left flex items-start gap-3.5 transition-all cursor-pointer min-h-[52px] ${
                   isSelected
-                    ? 'border-[var(--color-accent)] bg-blue-50/60 dark:bg-blue-950/30'
-                    : 'border-gray-200 dark:border-neutral-800 hover:border-gray-300 dark:hover:border-neutral-700'
+                    ? 'border-blue-500/60 bg-blue-500/15 dark:bg-blue-500/20 shadow-[0_4px_20px_rgba(79,110,247,0.15)] ring-1 ring-blue-500/40'
+                    : 'border-slate-300/60 dark:border-white/10 hover:border-slate-400 dark:hover:border-white/20'
                 }`}
-                style={{ backgroundColor: isSelected ? undefined : 'var(--color-card)' }}
               >
                 <span
                   className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs uppercase shrink-0 ${
                     isSelected
-                      ? 'bg-[var(--color-accent)] text-white'
-                      : 'bg-gray-100 dark:bg-neutral-800 text-gray-500'
+                      ? 'bg-blue-600 text-white shadow-[0_0_10px_rgba(79,110,247,0.5)]'
+                      : 'bg-slate-200/60 dark:bg-white/10 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   {key}
                 </span>
-                <span className="text-sm font-medium pt-0.5 leading-snug" style={{ color: 'var(--color-text)' }}>
+                <span className="text-sm font-medium pt-0.5 leading-snug text-slate-900 dark:text-slate-100">
                   {text}
                 </span>
               </button>
@@ -416,8 +401,7 @@ export function Simulasi() {
             type="button"
             onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
-            className="px-4 h-11 rounded-xl text-xs font-bold border transition-colors flex items-center gap-1.5 disabled:opacity-30"
-            style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+            className="px-4 h-11 rounded-xl text-xs font-bold border border-slate-300/60 dark:border-white/10 bg-white/40 dark:bg-white/[0.04] text-slate-700 dark:text-slate-300 backdrop-blur-md transition-all flex items-center gap-1.5 disabled:opacity-30 cursor-pointer"
           >
             <ChevronLeft size={16} />
             <span>Sebelumnya</span>
@@ -427,8 +411,7 @@ export function Simulasi() {
             type="button"
             onClick={() => setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))}
             disabled={currentIndex === questions.length - 1}
-            className="px-4 h-11 rounded-xl text-xs font-bold text-white shadow-sm flex items-center gap-1.5 disabled:opacity-30"
-            style={{ backgroundColor: 'var(--color-accent)' }}
+            className="liquid-button-primary px-4 h-11 rounded-xl text-xs font-bold text-white shadow-sm flex items-center gap-1.5 disabled:opacity-30 cursor-pointer"
           >
             <span>Selanjutnya</span>
             <ChevronRight size={16} />

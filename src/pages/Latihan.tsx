@@ -253,28 +253,21 @@ export function Latihan() {
         </div>
 
         {loadingSetup ? (
-          <Skeleton className="h-64 rounded-xl" />
+          <Skeleton className="h-64 rounded-2xl" />
         ) : (
-          <div
-            className="p-5 rounded-2xl border flex flex-col gap-5"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
+          <div className="liquid-glass-card p-6 rounded-2xl flex flex-col gap-5">
             {/* Course select */}
             <div>
-              <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
+              <label className="block text-xs font-bold mb-1.5 text-slate-800 dark:text-slate-200">
                 Mata Kuliah
               </label>
               <select
                 value={selectedCourseId}
                 onChange={(e) => setSelectedCourseId(e.target.value)}
-                className="w-full h-11 px-3 rounded-lg border bg-transparent font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
-                style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                className="w-full h-11 px-3.5 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md font-medium text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 text-slate-900 dark:text-slate-100"
               >
                 {courses.map((c) => (
-                  <option key={c.id} value={c.id} className="dark:bg-neutral-900">
+                  <option key={c.id} value={c.id} className="dark:bg-neutral-900 text-slate-900 dark:text-slate-100">
                     {c.nama} ({c.kode})
                   </option>
                 ))}
@@ -282,10 +275,10 @@ export function Latihan() {
             </div>
 
             {/* Filter Bookmark Only */}
-            <div className="flex items-center justify-between p-3 rounded-xl border bg-gray-50/60 dark:bg-neutral-800/40">
-              <div className="flex items-center gap-2">
-                <Bookmark size={16} className={onlyBookmarked ? 'text-amber-500 fill-amber-500' : 'text-gray-400'} />
-                <span className="text-xs font-semibold" style={{ color: 'var(--color-text)' }}>
+            <div className="flex items-center justify-between p-3.5 rounded-xl border border-slate-200/80 dark:border-white/10 bg-white/40 dark:bg-white/[0.03] backdrop-blur-md">
+              <div className="flex items-center gap-2.5">
+                <Bookmark size={16} className={onlyBookmarked ? 'text-amber-500 fill-amber-500' : 'text-slate-400'} />
+                <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
                   Latihan Khusus Soal yang Saya Tandai (Bookmark)
                 </span>
               </div>
@@ -293,7 +286,7 @@ export function Latihan() {
                 type="checkbox"
                 checked={onlyBookmarked}
                 onChange={(e) => setOnlyBookmarked(e.target.checked)}
-                className="w-4 h-4 rounded text-[var(--color-accent)] cursor-pointer"
+                className="w-4 h-4 rounded text-blue-600 cursor-pointer"
               />
             </div>
 
@@ -301,7 +294,7 @@ export function Latihan() {
             {!onlyBookmarked && availableTopics.length > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-bold" style={{ color: 'var(--color-text)' }}>
+                  <label className="block text-xs font-bold text-slate-800 dark:text-slate-200">
                     Pilih Topik Soal
                   </label>
                   <button
@@ -311,7 +304,7 @@ export function Latihan() {
                         selectedTopics.length === availableTopics.length ? [availableTopics[0]] : [...availableTopics]
                       )
                     }
-                    className="text-[11px] font-semibold text-[var(--color-accent)] hover:underline"
+                    className="text-[11px] font-semibold text-[var(--color-accent)] hover:underline cursor-pointer"
                   >
                     {selectedTopics.length === availableTopics.length ? 'Pilih Satu Saja' : 'Pilih Semua'}
                   </button>
@@ -325,10 +318,10 @@ export function Latihan() {
                         key={topik}
                         type="button"
                         onClick={() => toggleTopic(topik)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors flex items-center gap-1.5 cursor-pointer ${
+                        className={`px-3 py-1.5 rounded-xl text-xs font-medium border backdrop-blur-md transition-all flex items-center gap-1.5 cursor-pointer ${
                           active
-                            ? 'bg-blue-50 border-blue-300 text-[var(--color-accent)] dark:bg-blue-950/40 dark:border-blue-800'
-                            : 'border-gray-200 dark:border-neutral-800 text-gray-500'
+                            ? 'bg-blue-500/15 border-blue-500/30 text-blue-700 dark:text-blue-300 shadow-xs'
+                            : 'border-slate-300/60 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-white/10'
                         }`}
                       >
                         {active && <Check size={13} className="stroke-[2.5]" />}
@@ -342,7 +335,7 @@ export function Latihan() {
 
             {/* Question count */}
             <div>
-              <label className="block text-xs font-bold mb-2" style={{ color: 'var(--color-text)' }}>
+              <label className="block text-xs font-bold mb-2 text-slate-800 dark:text-slate-200">
                 Jumlah Soal
               </label>
               <div className="grid grid-cols-4 gap-2">
@@ -351,10 +344,10 @@ export function Latihan() {
                     key={cnt}
                     type="button"
                     onClick={() => setQuestionCount(cnt)}
-                    className={`h-10 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
+                    className={`h-10 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                       questionCount === cnt
-                        ? 'bg-[var(--color-accent)] text-white border-transparent shadow-sm'
-                        : 'border-gray-200 dark:border-neutral-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800'
+                        ? 'bg-blue-600 text-white border-transparent shadow-md'
+                        : 'border-slate-300/60 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10'
                     }`}
                   >
                     {cnt === 'semua' ? 'Semua' : `${cnt} Soal`}
@@ -367,8 +360,7 @@ export function Latihan() {
             <button
               type="button"
               onClick={() => handleStartQuiz(false)}
-              className="w-full h-12 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-98 cursor-pointer mt-2"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              className="liquid-button-primary w-full h-12 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 cursor-pointer mt-2"
             >
               <Sparkles size={18} />
               <span>Mulai Latihan {selectedCourseObj ? `(${selectedCourseObj.kode})` : ''}</span>
@@ -449,25 +441,13 @@ export function Latihan() {
         </div>
 
         {/* Question Card */}
-        <div
-          className="p-5 rounded-2xl border flex flex-col gap-4"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="liquid-glass-card p-6 rounded-2xl flex flex-col gap-4 relative overflow-hidden">
           <div className="flex items-center justify-between gap-2">
-            <span
-              className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"
-              style={{
-                backgroundColor: 'var(--color-bg-secondary)',
-                color: 'var(--color-accent)',
-              }}
-            >
+            <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md">
               {currentQ.topik}
             </span>
             {currentQ.sumber && (
-              <span className="text-[11px] text-gray-400">
+              <span className="text-[11px] text-slate-400">
                 Sumber: {currentQ.sumber} {currentQ.tahun ? `(${currentQ.tahun})` : ''}
               </span>
             )}
@@ -475,25 +455,25 @@ export function Latihan() {
 
           <KaTeXRenderer
             content={currentQ.pertanyaan}
-            className="text-base font-semibold leading-relaxed"
+            className="text-base sm:text-lg font-semibold leading-relaxed text-slate-900 dark:text-slate-100"
           />
         </div>
 
         {/* 4 Large Tap-Friendly Options */}
         <div className="flex flex-col gap-2.5">
           {options.map(({ key, text }) => {
-            let optionStyles = 'border-gray-200 dark:border-neutral-800 hover:border-gray-300 dark:hover:border-neutral-700'
-            let badgeStyles = 'bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-300'
+            let optionStyles = 'border-slate-300/60 dark:border-white/10 hover:border-slate-400 dark:hover:border-white/20'
+            let badgeStyles = 'bg-slate-200/60 dark:bg-white/10 text-slate-700 dark:text-slate-300'
 
             if (isAnswerSubmitted) {
               if (key === currentQ.kunci) {
-                optionStyles = 'bg-emerald-50 border-emerald-400 text-emerald-900 dark:bg-emerald-950/40 dark:border-emerald-700 dark:text-emerald-300'
-                badgeStyles = 'bg-emerald-500 text-white'
+                optionStyles = 'bg-emerald-500/15 border-emerald-500/40 text-emerald-950 dark:text-emerald-200 shadow-[0_4px_20px_rgba(16,185,129,0.15)]'
+                badgeStyles = 'bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.5)]'
               } else if (selectedAnswer === key) {
-                optionStyles = 'bg-rose-50 border-rose-400 text-rose-900 dark:bg-rose-950/40 dark:border-rose-700 dark:text-rose-300'
-                badgeStyles = 'bg-rose-500 text-white'
+                optionStyles = 'bg-rose-500/15 border-rose-500/40 text-rose-950 dark:text-rose-200 shadow-[0_4px_20px_rgba(244,63,94,0.15)]'
+                badgeStyles = 'bg-rose-500 text-white shadow-[0_0_10px_rgba(244,63,94,0.5)]'
               } else {
-                optionStyles = 'opacity-40 border-gray-200 dark:border-neutral-800'
+                optionStyles = 'opacity-40 border-slate-200 dark:border-white/[0.05]'
               }
             }
 
@@ -503,13 +483,12 @@ export function Latihan() {
                 type="button"
                 onClick={() => handleSelectOption(key)}
                 disabled={isAnswerSubmitted}
-                className={`p-4 rounded-xl border text-left flex items-start gap-3 transition-all min-h-[52px] cursor-pointer disabled:cursor-default ${optionStyles}`}
-                style={{ backgroundColor: isAnswerSubmitted ? undefined : 'var(--color-card)' }}
+                className={`liquid-glass-card p-4 rounded-xl text-left flex items-start gap-3.5 transition-all min-h-[54px] cursor-pointer disabled:cursor-default ${optionStyles}`}
               >
                 <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs uppercase shrink-0 ${badgeStyles}`}>
                   {key}
                 </span>
-                <span className="text-sm font-medium pt-0.5 leading-snug" style={{ color: isAnswerSubmitted ? undefined : 'var(--color-text)' }}>
+                <span className="text-sm font-medium pt-0.5 leading-snug">
                   {text}
                 </span>
               </button>
@@ -521,23 +500,23 @@ export function Latihan() {
         {isAnswerSubmitted && (
           <div className="flex flex-col gap-4 animate-in fade-in duration-200">
             <div
-              className={`p-4 rounded-xl border flex flex-col gap-2 ${
+              className={`p-5 rounded-2xl border backdrop-blur-xl flex flex-col gap-2.5 ${
                 selectedAnswer === currentQ.kunci
-                  ? 'bg-emerald-50/70 border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-900'
-                  : 'bg-rose-50/70 border-rose-200 dark:bg-rose-950/30 dark:border-rose-900'
+                  ? 'bg-emerald-500/10 border-emerald-500/30 shadow-[0_4px_20px_rgba(16,185,129,0.1)]'
+                  : 'bg-rose-500/10 border-rose-500/30 shadow-[0_4px_20px_rgba(244,63,94,0.1)]'
               }`}
             >
               <div className="flex items-center gap-2">
                 {selectedAnswer === currentQ.kunci ? (
                   <>
-                    <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400" />
+                    <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400 stroke-[2.2]" />
                     <span className="font-bold text-sm text-emerald-800 dark:text-emerald-300">
                       Jawaban Benar!
                     </span>
                   </>
                 ) : (
                   <>
-                    <XCircle size={18} className="text-rose-600 dark:text-rose-400" />
+                    <XCircle size={18} className="text-rose-600 dark:text-rose-400 stroke-[2.2]" />
                     <span className="font-bold text-sm text-rose-800 dark:text-rose-300">
                       Jawaban Kurang Tepat (Kunci: {currentQ.kunci.toUpperCase()})
                     </span>
@@ -546,31 +525,25 @@ export function Latihan() {
               </div>
 
               {currentQ.pembahasan && (
-                <div className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 pt-2 border-t border-gray-200/50 dark:border-neutral-800">
-                  <strong className="block mb-1">Pembahasan:</strong>
+                <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 pt-2.5 border-t border-slate-300/40 dark:border-white/[0.08]">
+                  <strong className="block mb-1 text-slate-900 dark:text-slate-100 font-semibold">Pembahasan:</strong>
                   <KaTeXRenderer content={currentQ.pembahasan} />
                 </div>
               )}
             </div>
 
             {/* Personal Note per question */}
-            <div
-              className="p-3.5 rounded-xl border flex flex-col gap-2 text-xs"
-              style={{
-                backgroundColor: 'var(--color-card)',
-                borderColor: 'var(--color-border)',
-              }}
-            >
+            <div className="liquid-glass-card p-4 rounded-xl flex flex-col gap-2 text-xs">
               <div className="flex items-center justify-between">
-                <span className="font-bold flex items-center gap-1.5" style={{ color: 'var(--color-text)' }}>
-                  <FileEdit size={14} />
+                <span className="font-bold flex items-center gap-1.5 text-slate-800 dark:text-slate-200">
+                  <FileEdit size={14} className="text-blue-500" />
                   <span>Catatan Pribadi Soal Ini:</span>
                 </span>
                 {!isEditingNote && (
                   <button
                     type="button"
                     onClick={() => setIsEditingNote(true)}
-                    className="text-[var(--color-accent)] hover:underline font-semibold"
+                    className="text-[var(--color-accent)] hover:underline font-semibold cursor-pointer"
                   >
                     {noteText ? 'Ubah Catatan' : '+ Tambah Catatan'}
                   </button>
@@ -584,22 +557,20 @@ export function Latihan() {
                     onChange={(e) => setNoteText(e.target.value)}
                     placeholder="Tulis catatan rumus, jebakan soal, atau kata kunci pengingat..."
                     rows={2}
-                    className="w-full p-2.5 rounded-lg border bg-transparent text-xs"
-                    style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                    className="w-full p-3 rounded-xl border border-slate-300/60 dark:border-white/10 bg-white/60 dark:bg-black/30 backdrop-blur-md text-xs text-slate-900 dark:text-slate-100"
                   />
                   <div className="flex items-center justify-end gap-2">
                     <button
                       type="button"
                       onClick={() => setIsEditingNote(false)}
-                      className="px-3 py-1 rounded-md border text-xs"
-                      style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-secondary)' }}
+                      className="px-3 py-1.5 rounded-lg border border-slate-300/60 dark:border-white/10 text-xs text-slate-600 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-white/10 cursor-pointer"
                     >
                       Batal
                     </button>
                     <button
                       type="button"
                       onClick={handleSaveNote}
-                      className="px-3 py-1 rounded-md text-xs font-bold text-white bg-[var(--color-accent)] flex items-center gap-1"
+                      className="liquid-button-primary px-3 py-1.5 rounded-lg text-xs font-bold text-white flex items-center gap-1 cursor-pointer"
                     >
                       <Save size={12} />
                       <span>Simpan Catatan</span>
@@ -607,19 +578,18 @@ export function Latihan() {
                   </div>
                 </div>
               ) : noteText ? (
-                <p className="text-gray-600 dark:text-gray-400 italic bg-gray-50 dark:bg-neutral-800/40 p-2 rounded-lg">
+                <p className="text-slate-700 dark:text-slate-300 italic bg-white/40 dark:bg-white/[0.04] p-2.5 rounded-xl border border-white/60 dark:border-white/[0.06]">
                   &ldquo;{noteText}&rdquo;
                 </p>
               ) : (
-                <span className="text-gray-400 italic">Belum ada catatan pribadi untuk soal ini.</span>
+                <span className="text-slate-400 italic">Belum ada catatan pribadi untuk soal ini.</span>
               )}
             </div>
 
             <button
               type="button"
               onClick={handleNextQuestion}
-              className="w-full h-12 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 shadow-sm transition-transform active:scale-98 cursor-pointer"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              className="liquid-button-primary w-full h-12 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>{currentIndex + 1 === questions.length ? 'Lihat Hasil Akhir' : 'Lanjut ke Soal Berikutnya'}</span>
               <ArrowRight size={16} />

@@ -36,35 +36,20 @@ export function MaterialCard({ material, onProgressChange }: MaterialCardProps) 
 
   return (
     <div
-      className={`p-4 rounded-xl border flex flex-col gap-3 transition-all hover:shadow-sm ${
-        studied ? 'border-emerald-300 dark:border-emerald-900 bg-emerald-50/20 dark:bg-emerald-950/10' : ''
+      className={`liquid-glass-card p-5 rounded-2xl flex flex-col gap-3.5 group relative overflow-hidden transition-all duration-300 ${
+        studied
+          ? 'border-emerald-500/40 bg-emerald-500/10 dark:bg-emerald-500/15 shadow-[0_4px_20px_rgba(16,185,129,0.12)]'
+          : ''
       }`}
-      style={{
-        backgroundColor: studied ? undefined : 'var(--color-card)',
-        borderColor: studied ? undefined : 'var(--color-border)',
-      }}
     >
-      <div className="flex items-start justify-between gap-2 flex-wrap">
+      <div className="flex items-start justify-between gap-2.5 flex-wrap">
         <div className="flex items-center gap-2">
-          <span
-            className="px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide flex items-center gap-1.5"
-            style={{
-              backgroundColor: 'var(--color-bg-secondary)',
-              color: 'var(--color-accent)',
-              border: '1px solid var(--color-border)',
-            }}
-          >
-            <IconComponent size={13} />
+          <span className="px-3 py-1 rounded-xl text-xs font-semibold uppercase tracking-wide flex items-center gap-1.5 bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md">
+            <IconComponent size={13} className="stroke-[2.2]" />
             <span>{typeLabels[material.jenis] || material.jenis}</span>
           </span>
 
-          <span
-            className="text-xs font-medium px-2 py-0.5 rounded-full"
-            style={{
-              backgroundColor: 'var(--color-bg-secondary)',
-              color: 'var(--color-text-secondary)',
-            }}
-          >
+          <span className="text-xs font-medium px-2.5 py-1 rounded-xl bg-slate-200/50 dark:bg-white/[0.05] border border-slate-300/40 dark:border-white/[0.06] text-slate-600 dark:text-slate-300 backdrop-blur-sm">
             Topik: {material.topik}
           </span>
         </div>
@@ -73,42 +58,39 @@ export function MaterialCard({ material, onProgressChange }: MaterialCardProps) 
         <button
           type="button"
           onClick={handleToggle}
-          className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${
+          className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl border backdrop-blur-md transition-all cursor-pointer ${
             studied
-              ? 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
-              : 'border-gray-200 dark:border-neutral-800 text-gray-500 hover:bg-gray-100 dark:hover:bg-neutral-800'
+              ? 'bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border-emerald-500/40 shadow-xs'
+              : 'border-slate-300/60 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-white/10'
           }`}
           title="Tandai sudah atau belum dipelajari"
         >
-          {studied ? <CheckSquare size={14} className="text-emerald-600" /> : <Square size={14} />}
+          {studied ? <CheckSquare size={14} className="text-emerald-600 dark:text-emerald-400 stroke-[2.2]" /> : <Square size={14} />}
           <span>{studied ? 'Sudah Dipelajari' : 'Belum Dipelajari'}</span>
         </button>
       </div>
 
       <div>
-        <h3 className="font-bold text-base leading-snug" style={{ color: 'var(--color-text)' }}>
+        <h3 className="font-bold text-base leading-snug text-slate-900 dark:text-slate-100">
           {material.judul}
         </h3>
         {material.catatan && (
-          <p className="text-xs sm:text-sm mt-1 whitespace-pre-line text-gray-600 dark:text-gray-300">
+          <p className="text-xs sm:text-sm mt-1.5 whitespace-pre-line text-slate-600 dark:text-slate-300 leading-relaxed">
             {material.catatan}
           </p>
         )}
       </div>
 
-      <div
-        className="pt-2 mt-auto flex items-center justify-between border-t text-xs flex-wrap gap-2"
-        style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-secondary)' }}
-      >
+      <div className="pt-3 mt-auto flex items-center justify-between border-t border-slate-200/60 dark:border-white/[0.08] text-xs flex-wrap gap-2 text-slate-500 dark:text-slate-400">
         <div className="flex items-center gap-3">
           {material.ditambahkan_oleh && (
             <span className="flex items-center gap-1">
-              <User size={12} />
+              <User size={12} className="shrink-0 text-slate-400" />
               <span>{material.ditambahkan_oleh}</span>
             </span>
           )}
           <span className="flex items-center gap-1">
-            <Calendar size={12} />
+            <Calendar size={12} className="shrink-0 text-slate-400" />
             <span>{formatTanggal(material.dibuat_pada)}</span>
           </span>
         </div>
@@ -118,11 +100,10 @@ export function MaterialCard({ material, onProgressChange }: MaterialCardProps) 
             href={material.tautan}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white shadow-sm transition-transform active:scale-95"
-            style={{ backgroundColor: 'var(--color-accent)' }}
+            className="liquid-button-primary inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white cursor-pointer"
           >
             <span>Buka Materi</span>
-            <ExternalLink size={13} />
+            <ExternalLink size={13} className="stroke-[2.2]" />
           </a>
         )}
       </div>

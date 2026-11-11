@@ -82,32 +82,27 @@ export function Beranda() {
   return (
     <div className="flex flex-col gap-6">
       {/* 1. Header: Greeting & Date */}
-      <section className="flex flex-col gap-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight" style={{ color: 'var(--color-text)' }}>
+      <section className="flex flex-col gap-1.5 pt-1">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 dark:from-white dark:via-slate-100 dark:to-indigo-200 bg-clip-text text-transparent">
           {sapaan}! 👋
         </h1>
-        <p className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
           {tanggalHariIni}
         </p>
       </section>
 
       {/* 2. Passive Warning Banner (if any task due in 48h) */}
       {dueIn48HoursCount > 0 && (
-        <div
-          className="p-3.5 rounded-xl border flex items-center justify-between gap-3 animate-in fade-in"
-          style={{
-            backgroundColor: 'rgba(234, 179, 8, 0.1)',
-            borderColor: 'rgba(234, 179, 8, 0.3)',
-            color: 'var(--color-text)',
-          }}
-        >
-          <div className="flex items-center gap-2.5 text-sm font-semibold text-amber-700 dark:text-amber-400">
-            <AlertTriangle size={18} className="shrink-0" />
+        <div className="p-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 dark:bg-amber-500/15 backdrop-blur-xl shadow-[0_4px_20px_rgba(245,158,11,0.12)] flex items-center justify-between gap-3 animate-in fade-in transition-all">
+          <div className="flex items-center gap-3 text-sm font-semibold text-amber-800 dark:text-amber-300">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-amber-500/20 text-amber-600 dark:text-amber-300 shrink-0">
+              <AlertTriangle size={17} className="stroke-[2.5]" />
+            </div>
             <span>{dueIn48HoursCount} tugas jatuh tempo dalam 48 jam!</span>
           </div>
           <Link
             to="/pengumuman"
-            className="text-xs font-bold underline hover:no-underline shrink-0 text-amber-700 dark:text-amber-400"
+            className="text-xs font-bold px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-900 dark:text-amber-200 border border-amber-500/30 backdrop-blur-md transition-all active:scale-95 shrink-0"
           >
             Lihat Tugas
           </Link>
@@ -118,15 +113,14 @@ export function Beranda() {
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Calendar size={18} style={{ color: 'var(--color-accent)' }} />
-            <h2 className="text-base font-bold" style={{ color: 'var(--color-text)' }}>
+            <Calendar size={18} className="text-blue-500 stroke-[2.2]" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Kuliah Hari Ini ({todayHari.toUpperCase()})
             </h2>
           </div>
           <Link
             to="/jadwal"
-            className="text-xs font-semibold flex items-center gap-1 hover:underline"
-            style={{ color: 'var(--color-accent)' }}
+            className="text-xs font-semibold flex items-center gap-1 text-[var(--color-accent)] hover:underline"
           >
             <span>Semua Jadwal</span>
             <ArrowRight size={14} />
@@ -134,52 +128,37 @@ export function Beranda() {
         </div>
 
         {loading ? (
-          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-24 w-full rounded-2xl" />
         ) : todaySchedules.length === 0 ? (
-          <div
-            className="p-5 rounded-xl border flex flex-col items-center justify-center text-center gap-1.5"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
-            <span className="text-2xl">🎉</span>
-            <span className="font-semibold text-sm" style={{ color: 'var(--color-text)' }}>
+          <div className="p-6 rounded-2xl liquid-glass-card flex flex-col items-center justify-center text-center gap-2">
+            <span className="text-3xl">🎉</span>
+            <span className="font-bold text-sm text-slate-800 dark:text-slate-200">
               Tidak ada kuliah hari ini!
             </span>
-            <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               Aman dulu, manfaatkan untuk istirahat atau mengulang materi.
             </span>
           </div>
         ) : (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2.5">
             {todaySchedules.map((schedule) => (
               <div
                 key={schedule.id}
-                className="p-3.5 rounded-xl border flex items-center justify-between gap-3"
-                style={{
-                  backgroundColor: 'var(--color-card)',
-                  borderColor: 'var(--color-border)',
-                  borderLeft: '4px solid var(--color-accent)',
-                }}
+                className="liquid-glass-card p-4 rounded-xl flex items-center justify-between gap-3 group"
               >
                 <div>
-                  <h3 className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
+                  <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">
                     {schedule.courses?.nama || 'Mata Kuliah'}
                   </h3>
-                  <div className="flex items-center gap-2 mt-0.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-                    <span>{schedule.ruang || 'Ruang belum ditentukan'}</span>
+                  <div className="flex items-center gap-2 mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    <span className="font-medium bg-slate-200/50 dark:bg-white/[0.05] px-2 py-0.5 rounded-md border border-slate-300/40 dark:border-white/[0.06]">
+                      {schedule.ruang || 'Ruang belum ditentukan'}
+                    </span>
                     {schedule.dosen && <span>• {schedule.dosen}</span>}
                   </div>
                 </div>
 
-                <div
-                  className="px-2.5 py-1 rounded-md text-xs font-bold font-mono shrink-0"
-                  style={{
-                    backgroundColor: 'var(--color-bg-secondary)',
-                    color: 'var(--color-accent)',
-                  }}
-                >
+                <div className="px-3 py-1.5 rounded-xl text-xs font-bold font-mono shrink-0 bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md shadow-xs">
                   {formatJam(schedule.jam_mulai, schedule.jam_selesai)}
                 </div>
               </div>
@@ -192,15 +171,14 @@ export function Beranda() {
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Clock size={18} style={{ color: 'var(--color-accent)' }} />
-            <h2 className="text-base font-bold" style={{ color: 'var(--color-text)' }}>
+            <Clock size={18} className="text-blue-500 stroke-[2.2]" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Tugas Terdekat
             </h2>
           </div>
           <Link
             to="/pengumuman"
-            className="text-xs font-semibold flex items-center gap-1 hover:underline"
-            style={{ color: 'var(--color-accent)' }}
+            className="text-xs font-semibold flex items-center gap-1 text-[var(--color-accent)] hover:underline"
           >
             <span>Lihat Semua</span>
             <ArrowRight size={14} />
@@ -209,22 +187,16 @@ export function Beranda() {
 
         {loading ? (
           <div className="flex flex-col gap-3">
-            <Skeleton className="h-32 w-full rounded-xl" />
-            <Skeleton className="h-32 w-full rounded-xl" />
+            <Skeleton className="h-32 w-full rounded-2xl" />
+            <Skeleton className="h-32 w-full rounded-2xl" />
           </div>
         ) : urgentAnnouncements.length === 0 ? (
-          <div
-            className="p-6 rounded-xl border flex flex-col items-center justify-center text-center gap-1"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
-            <span className="text-2xl">😌</span>
-            <span className="font-semibold text-sm" style={{ color: 'var(--color-text)' }}>
+          <div className="p-7 rounded-2xl liquid-glass-card flex flex-col items-center justify-center text-center gap-2">
+            <span className="text-3xl">😌</span>
+            <span className="font-bold text-sm text-slate-800 dark:text-slate-200">
               Belum ada tugas aktif!
             </span>
-            <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               Semua tugas sudah selesai atau belum ada pengumuman baru.
             </span>
           </div>
@@ -241,8 +213,8 @@ export function Beranda() {
       {upcomingExams.length > 0 && (
         <section className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <GraduationCap size={18} style={{ color: 'var(--color-accent)' }} />
-            <h2 className="text-base font-bold" style={{ color: 'var(--color-text)' }}>
+            <GraduationCap size={18} className="text-blue-500 stroke-[2.2]" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Hitung Mundur Ujian
             </h2>
           </div>
@@ -253,32 +225,28 @@ export function Beranda() {
               return (
                 <div
                   key={exam.id}
-                  className="p-4 rounded-xl border flex items-center justify-between gap-3"
-                  style={{
-                    backgroundColor: 'var(--color-card)',
-                    borderColor: 'var(--color-border)',
-                  }}
+                  className="liquid-glass-card p-4 rounded-xl flex items-center justify-between gap-3 group"
                 >
                   <div>
                     <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                      className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${
                         exam.jenis === 'uts'
-                          ? 'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400'
-                          : 'bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-400'
+                          ? 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30'
+                          : 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30'
                       }`}
                     >
                       {exam.jenis.toUpperCase()}
                     </span>
-                    <h3 className="font-bold text-sm mt-1" style={{ color: 'var(--color-text)' }}>
+                    <h3 className="font-bold text-sm mt-1.5 text-slate-900 dark:text-slate-100">
                       {exam.courses?.nama || 'Mata Kuliah'}
                     </h3>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+                    <p className="text-xs mt-0.5 text-slate-500 dark:text-slate-400">
                       {formatTanggal(exam.tanggal)} {exam.ruang ? `• ${exam.ruang}` : ''}
                     </p>
                   </div>
 
                   <div className="text-right shrink-0">
-                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-900 block">
+                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 backdrop-blur-md block shadow-xs">
                       {countdownStr}
                     </span>
                   </div>
@@ -289,34 +257,25 @@ export function Beranda() {
         </section>
       )}
 
-      {/* 6. Tombol Lanjut Latihan Soal */}
-      <section
-        className="p-4 rounded-xl border flex items-center justify-between gap-4"
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
-      >
-        <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-white shrink-0 shadow-sm"
-            style={{ backgroundColor: 'var(--color-accent)' }}
-          >
-            <Sparkles size={20} />
+      {/* 6. Banner Pintasan Lanjut Latihan Soal */}
+      <section className="liquid-glass-card p-5 rounded-2xl flex items-center justify-between gap-4 relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-blue-500/15 to-transparent rounded-full blur-2xl pointer-events-none" />
+        <div className="flex items-center gap-3.5 relative z-10">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center text-white shrink-0 shadow-[0_4px_16px_rgba(79,110,247,0.35)] bg-gradient-to-tr from-blue-600 to-indigo-500 border border-white/20">
+            <Sparkles size={20} className="stroke-[2.2]" />
           </div>
           <div>
-            <h3 className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
+            <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100">
               Lanjut Latihan Soal
             </h3>
-            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-              Uji pemahaman topik dan pelajari pembahasan jawaban.
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Uji pemahaman topik dan pelajari pembahasan jawaban secara interaktif.
             </p>
           </div>
         </div>
         <Link
           to="/latihan"
-          className="px-4 py-2 rounded-lg text-xs font-bold text-white shrink-0 shadow-sm transition-transform active:scale-95"
-          style={{ backgroundColor: 'var(--color-accent)' }}
+          className="liquid-button-primary px-4 py-2 rounded-xl text-xs font-bold text-white shrink-0 relative z-10"
         >
           Mulai
         </Link>
