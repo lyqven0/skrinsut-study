@@ -188,3 +188,4 @@ CREATE POLICY "Public update question_stats" ON question_stats FOR UPDATE USING 
 -- ============================================================
 -- Done! ✅ All tables, RLS policies, and RPC functions created.
 -- ============================================================
+

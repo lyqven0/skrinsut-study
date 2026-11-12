@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Lock, Mail, Loader2, ArrowLeft } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { Lock, Loader2, ArrowLeft } from 'lucide-react'
+
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123'
 
 export function AdminLogin() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
@@ -15,35 +15,17 @@ export function AdminLogin() {
     setLoading(true)
     setErrorMsg('')
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      })
+    // Simulate brief loading
+    await new Promise((r) => setTimeout(r, 400))
 
-      if (error) throw error
-
-      if (data.user) {
-        // Verify admin table
-        const { data: adminRecord, error: adminErr } = await supabase
-          .from('admins')
-          .select('user_id')
-          .eq('user_id', data.user.id)
-          .single()
-
-        if (adminErr || !adminRecord) {
-          await supabase.auth.signOut()
-          throw new Error('Akun Anda bukan admin yang terdaftar.')
-        }
-
-        navigate('/admin')
-      }
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Login gagal. Periksa email dan password.'
-      setErrorMsg(msg)
-    } finally {
-      setLoading(false)
+    if (password === ADMIN_PASSWORD) {
+      localStorage.setItem('skrinsut_admin_auth', 'true')
+      navigate('/admin')
+    } else {
+      setErrorMsg('Password salah. Coba lagi.')
     }
+
+    setLoading(false)
   }
 
   return (
@@ -60,14 +42,14 @@ export function AdminLogin() {
           <button
             type="button"
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full liquid-glass-pill hover:text-[var(--color-accent)] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full liquid-glass-pill hover:text-[var(--color-accent)] transition-colors cursor-pointer"
             style={{ color: 'var(--color-text-secondary)', border: '1px solid var(--glass-border)' }}
           >
             <ArrowLeft size={14} />
             <span>Kembali</span>
           </button>
           <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full liquid-glass-pill bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-            Admin Auth
+            Admin
           </span>
         </div>
 
@@ -89,25 +71,7 @@ export function AdminLogin() {
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div>
             <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
-              Email
-            </label>
-            <div className="relative">
-              <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@kelas.ac.id"
-                required
-                className="w-full h-11 pl-10 pr-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
-                style={{ color: 'var(--color-text)' }}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
-              Password
+              Password Admin
             </label>
             <div className="relative">
               <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -115,7 +79,7 @@ export function AdminLogin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Masukkan password admin"
                 required
                 className="w-full h-11 pl-10 pr-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
                 style={{ color: 'var(--color-text)' }}
@@ -142,4 +106,3 @@ export function AdminLogin() {
     </div>
   )
 }
-

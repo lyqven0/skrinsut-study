@@ -15,7 +15,6 @@ import {
   AlertTriangle,
   BarChart3,
 } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 
 export function AdminLayout() {
   const navigate = useNavigate()
@@ -24,35 +23,17 @@ export function AdminLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    async function checkAdmin() {
-      const { data: { user } } = await supabase.auth.getUser()
-
-      if (!user) {
-        navigate('/admin/login')
-        return
-      }
-
-      const { data: adminRecord, error } = await supabase
-        .from('admins')
-        .select('user_id')
-        .eq('user_id', user.id)
-        .single()
-
-      if (error || !adminRecord) {
-        setIsAdmin(false)
-        navigate('/admin/login')
-      } else {
-        setIsAdmin(true)
-      }
-
-      setCheckingAuth(false)
+    const isLoggedIn = localStorage.getItem('skrinsut_admin_auth') === 'true'
+    if (!isLoggedIn) {
+      navigate('/admin/login')
+    } else {
+      setIsAdmin(true)
     }
-
-    checkAdmin()
+    setCheckingAuth(false)
   }, [navigate])
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
+  const handleLogout = () => {
+    localStorage.removeItem('skrinsut_admin_auth')
     navigate('/')
   }
 

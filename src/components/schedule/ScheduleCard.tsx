@@ -15,7 +15,6 @@ export function ScheduleCard({ schedule }: ScheduleCardProps) {
     const loc = schedule.ruang || ''
     const desc = schedule.dosen ? `Dosen: ${schedule.dosen}` : ''
     
-    // Create an ICS event (repeat weekly on schedule.hari)
     const dayMap: Record<string, string> = {
       senin: 'MO',
       selasa: 'TU',
@@ -27,7 +26,6 @@ export function ScheduleCard({ schedule }: ScheduleCardProps) {
     }
     const byDay = dayMap[schedule.hari] || 'MO'
 
-    // Compute approximate next occurrence date
     const now = new Date()
     const dStr = `${now.getUTCFullYear()}0101`
     const startTimeClean = schedule.jam_mulai.replace(/:/g, '').slice(0, 4) + '00'
@@ -60,47 +58,44 @@ export function ScheduleCard({ schedule }: ScheduleCardProps) {
   }
 
   return (
-    <div className="liquid-glass-card p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 group">
-      <div className="flex items-start gap-3.5">
-        <div className="shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold font-mono tracking-tight flex items-center gap-1.5 bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md shadow-xs">
-          <Clock size={13} className="stroke-[2.2]" />
+    <div className="liquid-glass-card p-4 rounded-xl overflow-hidden">
+      {/* Row 1: Time badge + Course name + Calendar button */}
+      <div className="flex items-start gap-3 mb-2">
+        <div className="shrink-0 px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono tracking-tight flex items-center gap-1.5 bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 backdrop-blur-md">
+          <Clock size={12} className="stroke-[2.2]" />
           <span>{timeStr}</span>
         </div>
 
-        <div>
-          <h4 className="font-bold text-sm sm:text-base leading-snug text-slate-900 dark:text-slate-100">
-            {schedule.courses?.nama || 'Mata Kuliah'}
-          </h4>
+        <h4 className="font-bold text-sm leading-snug text-slate-900 dark:text-slate-100 flex-1 min-w-0 truncate">
+          {schedule.courses?.nama || 'Mata Kuliah'}
+        </h4>
 
-          <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-600 dark:text-slate-400">
-            {schedule.ruang && (
-              <span className="flex items-center gap-1 font-medium bg-slate-200/50 dark:bg-white/[0.05] px-2 py-0.5 rounded-md border border-slate-300/40 dark:border-white/[0.06]">
-                <MapPin size={12} className="text-blue-500 shrink-0" />
-                <span>{schedule.ruang}</span>
-              </span>
-            )}
-            {schedule.dosen && (
-              <span className="flex items-center gap-1">
-                <User size={12} className="text-slate-400 shrink-0" />
-                <span>{schedule.dosen}</span>
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-end">
         <button
           type="button"
           onClick={handleExportIcs}
-          className="text-xs font-semibold inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/50 dark:bg-white/[0.06] hover:bg-white/90 dark:hover:bg-white/[0.12] text-[var(--color-accent)] border border-white/60 dark:border-white/[0.08] backdrop-blur-md shadow-xs transition-all active:scale-95 cursor-pointer"
+          className="shrink-0 text-[11px] font-semibold inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white/50 dark:bg-white/[0.06] hover:bg-white/90 dark:hover:bg-white/[0.12] text-[var(--color-accent)] border border-white/60 dark:border-white/[0.08] backdrop-blur-md transition-all active:scale-95 cursor-pointer"
           title="Ekspor Jadwal ke Kalender (.ics)"
         >
-          <CalendarPlus size={14} />
-          <span>+ Kalender</span>
+          <CalendarPlus size={12} />
+          <span className="hidden sm:inline">Kalender</span>
         </button>
+      </div>
+
+      {/* Row 2: Room & Lecturer info */}
+      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+        {schedule.ruang && (
+          <span className="inline-flex items-center gap-1 font-medium bg-slate-200/50 dark:bg-white/[0.05] px-2 py-0.5 rounded-md border border-slate-300/40 dark:border-white/[0.06] max-w-full truncate">
+            <MapPin size={11} className="text-blue-500 shrink-0" />
+            <span className="truncate">{schedule.ruang}</span>
+          </span>
+        )}
+        {schedule.dosen && (
+          <span className="inline-flex items-center gap-1 min-w-0 max-w-full truncate">
+            <User size={11} className="text-slate-400 shrink-0" />
+            <span className="truncate">{schedule.dosen}</span>
+          </span>
+        )}
       </div>
     </div>
   )
 }
-

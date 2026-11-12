@@ -291,7 +291,7 @@ export function Jadwal() {
             {HARI_LIST.map(({ id, label }) => (
               <div
                 key={id}
-                className={`liquid-glass-card p-4 rounded-2xl flex flex-col gap-3 transition-all ${
+                className={`liquid-glass-card p-4 rounded-2xl flex flex-col gap-3 transition-all overflow-hidden min-w-0 ${
                   id === today ? 'border-blue-500/50 shadow-[0_0_20px_rgba(79,110,247,0.2)]' : ''
                 }`}
               >
