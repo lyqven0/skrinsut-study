@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import { Sun, Moon, Search, Camera, Settings } from 'lucide-react'
+import { Sun, Moon, Search, Camera, Settings, ShieldCheck } from 'lucide-react'
 
 interface HeaderProps {
   isDark: boolean
@@ -69,6 +69,16 @@ export function Header({ isDark, onToggleDark }: HeaderProps) {
             aria-label="Pengaturan dan Data Pribadi"
           >
             <Settings size={17} />
+          </Link>
+
+          <Link
+            to="/admin/login"
+            className="h-9 px-2.5 rounded-xl flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[var(--color-accent)] bg-white/50 dark:bg-white/[0.05] border border-white/60 dark:border-white/[0.08] hover:bg-white/90 dark:hover:bg-white/10 shadow-xs backdrop-blur-lg transition-all active:scale-95 cursor-pointer"
+            aria-label="Panel Admin"
+            title="Masuk sebagai Admin"
+          >
+            <ShieldCheck size={16} className="text-blue-500" />
+            <span className="hidden sm:inline">Admin</span>
           </Link>
 
           <button

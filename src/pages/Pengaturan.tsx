@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import {
   Download,
   Upload,
@@ -6,6 +7,7 @@ import {
   Moon,
   Sun,
   ShieldAlert,
+  ShieldCheck,
 } from 'lucide-react'
 import {
   getPersonalData,
@@ -175,6 +177,29 @@ export function Pengaturan() {
         <p className="text-[11px] text-slate-500 dark:text-slate-400">
           File JSON dapat kamu simpan di HP atau Google Drive untuk dipindahkan ke perangkat lain sewaktu-waktu.
         </p>
+      </div>
+
+      {/* Admin Section */}
+      <div className="liquid-glass-card p-5 rounded-2xl flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={18} className="text-blue-500" />
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">
+              Area Pengurus Kelas (Admin)
+            </h2>
+          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Khusus pengurus untuk moderasi tugas, materi, dan kelola jadwal kelas.
+          </p>
+        </div>
+
+        <Link
+          to="/admin/login"
+          className="liquid-button-primary px-4 py-2 rounded-xl text-xs font-bold text-white flex items-center gap-1.5 shadow-md cursor-pointer"
+        >
+          <ShieldCheck size={14} />
+          <span>Masuk Panel Admin</span>
+        </Link>
       </div>
 
       {/* Danger Zone: Reset Data */}
