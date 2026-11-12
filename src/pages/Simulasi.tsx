@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Question, Course } from '@/lib/types'
+import { MOCK_COURSES, MOCK_QUESTIONS } from '@/lib/mockData'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { KaTeXRenderer } from '@/components/ui/KaTeXRenderer'
 
@@ -44,11 +45,10 @@ export function Simulasi() {
     async function loadCourses() {
       setLoadingSetup(true)
       const { data } = await supabase.from('courses').select('*').order('nama')
-      if (data) {
-        setCourses(data)
-        if (!selectedCourseId && data.length > 0) {
-          setSelectedCourseId(data[0].id)
-        }
+      const coursesList = (data && data.length > 0) ? data : MOCK_COURSES
+      setCourses(coursesList)
+      if (!selectedCourseId && coursesList.length > 0) {
+        setSelectedCourseId(coursesList[0].id)
       }
       setLoadingSetup(false)
     }
@@ -79,13 +79,19 @@ export function Simulasi() {
     let query = supabase.from('questions').select('*, courses(*)').eq('course_id', selectedCourseId)
     const { data } = await query
 
-    if (!data || data.length === 0) {
+    let questionPool = (data && data.length > 0) ? data : []
+    if (questionPool.length === 0) {
+      const filteredMock = MOCK_QUESTIONS.filter((q) => q.course_id === selectedCourseId)
+      questionPool = filteredMock.length > 0 ? filteredMock : MOCK_QUESTIONS
+    }
+
+    if (questionPool.length === 0) {
       alert('Belum ada soal pada mata kuliah ini.')
       return
     }
 
     // Shuffle
-    const shuffled = [...data].sort(() => Math.random() - 0.5).slice(0, questionCount)
+    const shuffled = [...questionPool].sort(() => Math.random() - 0.5).slice(0, questionCount)
 
     setQuestions(shuffled)
     setCurrentIndex(0)

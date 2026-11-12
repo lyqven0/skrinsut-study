@@ -16,14 +16,17 @@ export function AppLayout() {
     >
       {/* Liquid Ambient Background Layer */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-        {/* Primary Ambient Orb */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 sm:w-[32rem] sm:h-[32rem] rounded-full bg-gradient-to-br from-blue-400/20 via-indigo-400/15 to-transparent dark:from-blue-600/15 dark:via-indigo-600/10 dark:to-transparent blur-3xl animate-float-slow" />
+        {/* Primary Sapphire Indigo Orb */}
+        <div className="absolute -top-32 -left-32 w-[34rem] h-[34rem] rounded-full bg-gradient-to-br from-blue-500/40 via-indigo-500/30 to-purple-500/20 dark:from-blue-600/35 dark:via-indigo-600/25 dark:to-transparent blur-[90px] animate-float-slow" />
         
-        {/* Secondary Ambient Orb */}
-        <div className="absolute top-1/3 -right-24 w-80 h-80 sm:w-[28rem] sm:h-[28rem] rounded-full bg-gradient-to-bl from-purple-400/18 via-pink-400/12 to-transparent dark:from-purple-600/12 dark:via-pink-700/8 dark:to-transparent blur-3xl animate-float-delayed" />
+        {/* Secondary Fuchsia Purple Orb */}
+        <div className="absolute top-1/4 -right-28 w-[32rem] h-[32rem] rounded-full bg-gradient-to-bl from-purple-500/35 via-pink-500/30 to-rose-400/20 dark:from-purple-600/30 dark:via-pink-700/20 dark:to-transparent blur-[90px] animate-float-delayed" />
         
-        {/* Tertiary Ambient Orb */}
-        <div className="absolute -bottom-32 left-1/4 w-96 h-96 sm:w-[30rem] sm:h-[30rem] rounded-full bg-gradient-to-tr from-cyan-400/15 via-emerald-400/10 to-transparent dark:from-cyan-600/10 dark:via-emerald-600/5 dark:to-transparent blur-3xl animate-float-reverse" />
+        {/* Tertiary Cyan Emerald Orb */}
+        <div className="absolute top-2/3 -left-24 w-[30rem] h-[30rem] rounded-full bg-gradient-to-tr from-cyan-400/35 via-teal-400/25 to-blue-400/20 dark:from-cyan-600/25 dark:via-emerald-600/18 dark:to-transparent blur-[90px] animate-float-reverse" />
+
+        {/* Quaternary Warm Violet Sunset Orb */}
+        <div className="absolute -bottom-32 right-1/4 w-[32rem] h-[32rem] rounded-full bg-gradient-to-tl from-indigo-500/35 via-purple-500/25 to-pink-500/20 dark:from-indigo-600/30 dark:via-purple-600/20 dark:to-transparent blur-[90px] animate-float-slow" />
       </div>
 
       {/* Main Content with Frosted Glass Shell */}

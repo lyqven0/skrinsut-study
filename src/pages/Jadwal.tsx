@@ -5,6 +5,7 @@ import type { ClassSchedule, Hari, Exam } from '@/lib/types'
 import { getHariIni, formatTanggal } from '@/lib/utils'
 import { DaySchedule } from '@/components/schedule/DaySchedule'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { MOCK_SCHEDULES, MOCK_EXAMS } from '@/lib/mockData'
 
 const HARI_LIST: { id: Hari; label: string }[] = [
   { id: 'senin', label: 'Senin' },
@@ -34,8 +35,17 @@ export function Jadwal() {
         supabase.from('exams').select('*, courses(*)').order('tanggal', { ascending: true }),
       ])
 
-      if (schedRes.data) setSchedules(schedRes.data)
-      if (examRes.data) setExams(examRes.data)
+      if (schedRes.data && schedRes.data.length > 0) {
+        setSchedules(schedRes.data)
+      } else {
+        setSchedules(MOCK_SCHEDULES)
+      }
+
+      if (examRes.data && examRes.data.length > 0) {
+        setExams(examRes.data)
+      } else {
+        setExams(MOCK_EXAMS)
+      }
       setLoading(false)
     }
 

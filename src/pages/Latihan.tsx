@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Question, Course } from '@/lib/types'
+import { MOCK_COURSES, MOCK_QUESTIONS } from '@/lib/mockData'
 import { ReportModal } from '@/components/questions/ReportModal'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { KaTeXRenderer } from '@/components/ui/KaTeXRenderer'
@@ -67,11 +68,10 @@ export function Latihan() {
     async function loadCourses() {
       setLoadingSetup(true)
       const { data } = await supabase.from('courses').select('*').order('nama')
-      if (data) {
-        setCourses(data)
-        if (!selectedCourseId && data.length > 0) {
-          setSelectedCourseId(data[0].id)
-        }
+      const coursesList = (data && data.length > 0) ? data : MOCK_COURSES
+      setCourses(coursesList)
+      if (!selectedCourseId && coursesList.length > 0) {
+        setSelectedCourseId(coursesList[0].id)
       }
       setLoadingSetup(false)
     }
@@ -87,11 +87,18 @@ export function Latihan() {
         .select('topik')
         .eq('course_id', selectedCourseId)
 
-      if (data) {
-        const uniqueTopics = Array.from(new Set(data.map((q) => q.topik).filter(Boolean)))
-        setAvailableTopics(uniqueTopics)
-        setSelectedTopics(uniqueTopics)
+      let topics: string[] = []
+      if (data && data.length > 0) {
+        topics = Array.from(new Set(data.map((q) => q.topik).filter(Boolean)))
+      } else {
+        const mockMatch = MOCK_QUESTIONS.filter((q) => q.course_id === selectedCourseId)
+        topics = Array.from(new Set(mockMatch.map((q) => q.topik).filter(Boolean)))
+        if (topics.length === 0) {
+          topics = Array.from(new Set(MOCK_QUESTIONS.map((q) => q.topik).filter(Boolean)))
+        }
       }
+      setAvailableTopics(topics)
+      setSelectedTopics(topics)
     }
     loadTopics()
   }, [selectedCourseId])
@@ -119,12 +126,23 @@ export function Latihan() {
       }
 
       const { data } = await query
-      if (!data || data.length === 0) {
+      let questionsList = (data && data.length > 0) ? data : []
+      if (questionsList.length === 0) {
+        // Fallback to mock questions
+        const filteredMock = MOCK_QUESTIONS.filter((q) => {
+          const matchCourse = q.course_id === selectedCourseId
+          const matchTopic = selectedTopics.length === 0 || selectedTopics.includes(q.topik)
+          return matchCourse && matchTopic
+        })
+        questionsList = filteredMock.length > 0 ? filteredMock : MOCK_QUESTIONS
+      }
+
+      if (questionsList.length === 0) {
         alert('Tidak ada soal yang tersedia untuk kriteria ini.')
         return
       }
 
-      pool = [...data]
+      pool = [...questionsList]
 
       // Filter only bookmarked if requested
       if (onlyBookmarked) {

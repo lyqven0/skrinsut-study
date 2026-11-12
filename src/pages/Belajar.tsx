@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import type { Course } from '@/lib/types'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { MOCK_COURSES } from '@/lib/mockData'
 
 export function Belajar() {
   const [courses, setCourses] = useState<Course[]>([])
@@ -14,7 +15,11 @@ export function Belajar() {
     async function fetchCourses() {
       setLoading(true)
       const { data } = await supabase.from('courses').select('*').order('nama')
-      if (data) setCourses(data)
+      if (data && data.length > 0) {
+        setCourses(data)
+      } else {
+        setCourses(MOCK_COURSES)
+      }
       setLoading(false)
     }
 

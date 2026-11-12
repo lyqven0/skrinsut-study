@@ -6,6 +6,7 @@ import { AnnouncementCard } from '@/components/announcements/AnnouncementCard'
 import { ProposalForm } from '@/components/announcements/ProposalForm'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { MOCK_ANNOUNCEMENTS } from '@/lib/mockData'
 
 export function Pengumuman() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
@@ -23,7 +24,11 @@ export function Pengumuman() {
       .gte('deadline', nowIso)
       .order('deadline', { ascending: true })
 
-    if (data) setAnnouncements(data)
+    if (data && data.length > 0) {
+      setAnnouncements(data)
+    } else {
+      setAnnouncements(MOCK_ANNOUNCEMENTS)
+    }
     setLoading(false)
   }
 

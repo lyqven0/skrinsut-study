@@ -6,6 +6,7 @@ import type { Announcement, ClassSchedule, Exam } from '@/lib/types'
 import { getSapaan, formatTanggal, getHariIni, formatJam } from '@/lib/utils'
 import { AnnouncementCard } from '@/components/announcements/AnnouncementCard'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { MOCK_SCHEDULES, MOCK_ANNOUNCEMENTS, MOCK_EXAMS } from '@/lib/mockData'
 
 export function Beranda() {
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,13 @@ export function Beranda() {
         .eq('hari', todayHari)
         .order('jam_mulai')
 
-      if (schedules) setTodaySchedules(schedules)
+      if (schedules && schedules.length > 0) {
+        setTodaySchedules(schedules)
+      } else {
+        // Fallback to mock schedules for today (or default weekday if weekend)
+        const mockToday = MOCK_SCHEDULES.filter((s) => s.hari === todayHari)
+        setTodaySchedules(mockToday.length > 0 ? mockToday : MOCK_SCHEDULES.slice(0, 2))
+      }
 
       // 2. Fetch nearest approved announcements
       const { data: announcements } = await supabase
@@ -43,9 +50,14 @@ export function Beranda() {
         .order('deadline', { ascending: true })
         .limit(3)
 
-      if (announcements) {
+      if (announcements && announcements.length > 0) {
         setUrgentAnnouncements(announcements)
         const count48 = announcements.filter((a) => a.deadline <= in48HoursIso).length
+        setDueIn48HoursCount(count48)
+      } else {
+        // Fallback to realistic mock announcements
+        setUrgentAnnouncements(MOCK_ANNOUNCEMENTS)
+        const count48 = MOCK_ANNOUNCEMENTS.filter((a) => a.deadline <= in48HoursIso).length
         setDueIn48HoursCount(count48)
       }
 
@@ -57,7 +69,12 @@ export function Beranda() {
         .order('tanggal', { ascending: true })
         .limit(2)
 
-      if (examsData) setUpcomingExams(examsData)
+      if (examsData && examsData.length > 0) {
+        setUpcomingExams(examsData)
+      } else {
+        // Fallback to mock exams
+        setUpcomingExams(MOCK_EXAMS.slice(0, 2))
+      }
 
       setLoading(false)
     }

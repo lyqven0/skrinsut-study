@@ -16,6 +16,7 @@ import { MaterialProposalForm } from '@/components/materials/MaterialProposalFor
 import { Skeleton } from '@/components/ui/Skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { getStudiedMaterialsCount } from '@/lib/storage'
+import { MOCK_COURSES, MOCK_MATERIALS } from '@/lib/mockData'
 
 export function BelajarCourse() {
   const { courseId } = useParams<{ courseId: string }>()
@@ -43,10 +44,21 @@ export function BelajarCourse() {
         .order('dibuat_pada', { ascending: false }),
     ])
 
-    if (courseRes.data) setCourse(courseRes.data)
-    if (matRes.data) {
+    if (courseRes.data) {
+      setCourse(courseRes.data)
+    } else {
+      const fallbackCourse = MOCK_COURSES.find((c) => c.id === courseId) || MOCK_COURSES[0]
+      setCourse(fallbackCourse)
+    }
+
+    if (matRes.data && matRes.data.length > 0) {
       setMaterials(matRes.data)
       setStudiedCount(getStudiedMaterialsCount(matRes.data.map((m) => m.id)))
+    } else {
+      const fallbackMaterials = MOCK_MATERIALS.filter((m) => m.course_id === courseId)
+      const list = fallbackMaterials.length > 0 ? fallbackMaterials : MOCK_MATERIALS.slice(0, 2)
+      setMaterials(list)
+      setStudiedCount(getStudiedMaterialsCount(list.map((m) => m.id)))
     }
     setLoading(false)
   }
