@@ -9,12 +9,14 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
+  AlertTriangle,
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import type { Question, Course } from '@/lib/types'
 import { MOCK_COURSES, MOCK_QUESTIONS } from '@/lib/mockData'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { KaTeXRenderer } from '@/components/ui/KaTeXRenderer'
+import { ReportModal } from '@/components/questions/ReportModal'
 
 type SimulationState = 'setup' | 'running' | 'review'
 
@@ -40,6 +42,7 @@ export function Simulasi() {
 
   // Timer ref
   const timerRef = useRef<number | null>(null)
+  const [reportQuestionId, setReportQuestionId] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadCourses() {
@@ -508,16 +511,27 @@ export function Simulasi() {
                 <span className="font-bold" style={{ color: 'var(--color-text)' }}>
                   Soal No. {idx + 1} ({q.topik})
                 </span>
-                <span
-                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1.5 liquid-glass-pill ${
-                    isCorrect
-                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25'
-                      : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/25'
-                  }`}
-                >
-                  {isCorrect ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
-                  <span>{isCorrect ? 'Benar' : `Salah (Jawabanmu: ${userAns ? userAns.toUpperCase() : 'Kosong'})`}</span>
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setReportQuestionId(q.id)}
+                    className="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1 hover:underline cursor-pointer text-xs"
+                    title="Laporkan kendala pada soal ini"
+                  >
+                    <AlertTriangle size={12} />
+                    <span>Laporkan</span>
+                  </button>
+                  <span
+                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1.5 liquid-glass-pill ${
+                      isCorrect
+                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25'
+                        : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/25'
+                    }`}
+                  >
+                    {isCorrect ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
+                    <span>{isCorrect ? 'Benar' : `Salah (Jawabanmu: ${userAns ? userAns.toUpperCase() : 'Kosong'})`}</span>
+                  </span>
+                </div>
               </div>
 
               <KaTeXRenderer content={q.pertanyaan} className="text-sm font-semibold" />
@@ -535,6 +549,14 @@ export function Simulasi() {
           )
         })}
       </div>
+
+      {reportQuestionId && (
+        <ReportModal
+          questionId={reportQuestionId}
+          isOpen={true}
+          onClose={() => setReportQuestionId(null)}
+        />
+      )}
     </div>
   )
 }
