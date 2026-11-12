@@ -6,26 +6,38 @@ import { AnnouncementCard } from '@/components/announcements/AnnouncementCard'
 import { ProposalForm } from '@/components/announcements/ProposalForm'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { useToast } from '@/components/ui/Toast'
 import { MOCK_ANNOUNCEMENTS } from '@/lib/mockData'
 
 export function Pengumuman() {
+  const { showToast } = useToast()
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [loading, setLoading] = useState(true)
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    setIsAdmin(localStorage.getItem('skrinsut_admin_auth') === 'true')
+  }, [])
 
   const fetchAnnouncements = async () => {
     setLoading(true)
     const nowIso = new Date().toISOString()
+    const isPlaceholder = import.meta.env.VITE_SUPABASE_URL?.includes('placeholder')
 
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('announcements')
       .select('*, courses(*)')
       .eq('status', 'disetujui')
       .gte('deadline', nowIso)
       .order('deadline', { ascending: true })
 
-    if (data && data.length > 0) {
-      setAnnouncements(data)
+    if (!error && data !== null) {
+      if (isPlaceholder && data.length === 0) {
+        setAnnouncements(MOCK_ANNOUNCEMENTS)
+      } else {
+        setAnnouncements(data)
+      }
     } else {
       setAnnouncements(MOCK_ANNOUNCEMENTS)
     }
@@ -35,6 +47,24 @@ export function Pengumuman() {
   useEffect(() => {
     fetchAnnouncements()
   }, [])
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Yakin ingin menghapus pengumuman tugas ini?')) return
+
+    if (id.startsWith('ann-')) {
+      setAnnouncements((prev) => prev.filter((a) => a.id !== id))
+      showToast('Pengumuman tugas berhasil dihapus.', 'success')
+      return
+    }
+
+    const { error } = await supabase.from('announcements').delete().eq('id', id)
+    if (error) {
+      showToast('Gagal menghapus: ' + error.message, 'error')
+    } else {
+      showToast('Pengumuman tugas berhasil dihapus.', 'success')
+      setAnnouncements((prev) => prev.filter((a) => a.id !== id))
+    }
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -75,7 +105,11 @@ export function Pengumuman() {
       ) : (
         <div className="flex flex-col gap-3">
           {announcements.map((announcement) => (
-            <AnnouncementCard key={announcement.id} announcement={announcement} />
+            <AnnouncementCard
+              key={announcement.id}
+              announcement={announcement}
+              onDelete={isAdmin ? handleDelete : undefined}
+            />
           ))}
         </div>
       )}

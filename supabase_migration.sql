@@ -163,6 +163,10 @@ CREATE POLICY "Public update announcements" ON announcements FOR UPDATE USING (t
 CREATE POLICY "Public update materials" ON materials FOR UPDATE USING (true);
 CREATE POLICY "Public update question_reports" ON question_reports FOR UPDATE USING (true);
 
+-- Public delete for announcements and materials
+CREATE POLICY "Public delete announcements" ON announcements FOR DELETE USING (true);
+CREATE POLICY "Public delete materials" ON materials FOR DELETE USING (true);
+
 -- Public full access for admin-managed tables
 CREATE POLICY "Public insert courses" ON courses FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public update courses" ON courses FOR UPDATE USING (true);

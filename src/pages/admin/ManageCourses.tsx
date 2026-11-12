@@ -148,23 +148,25 @@ export function ManageCourses() {
           {courses.map((c) => (
             <div
               key={c.id}
-              className="liquid-glass-card p-4.5 flex items-center justify-between gap-3"
+              className="liquid-glass-card p-4 rounded-2xl flex items-center justify-between gap-3 overflow-hidden min-w-0"
             >
-              <div>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider liquid-glass-pill bg-blue-500/10 text-[var(--color-accent)] border border-blue-500/20">
-                  {c.kode}
-                </span>
-                <h3 className="font-bold text-base mt-1.5" style={{ color: 'var(--color-text)' }}>
+              <div className="flex-1 min-w-0 flex flex-col gap-1">
+                <div>
+                  <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider liquid-glass-pill bg-blue-500/10 text-[var(--color-accent)] border border-blue-500/20">
+                    {c.kode}
+                  </span>
+                </div>
+                <h3 className="font-bold text-sm sm:text-base leading-snug truncate" style={{ color: 'var(--color-text)' }}>
                   {c.nama}
                 </h3>
                 {c.dosen && (
-                  <p className="text-xs mt-0.5 font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate">
                     Dosen: {c.dosen}
                   </p>
                 )}
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0">
                 <button
                   type="button"
                   onClick={() => openEditModal(c)}

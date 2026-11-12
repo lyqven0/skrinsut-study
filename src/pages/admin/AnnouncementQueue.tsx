@@ -80,6 +80,13 @@ export function AnnouncementQueue() {
     if (!confirm('Yakin ingin menghapus permanen pengumuman ini?')) return
 
     setActionLoading(id)
+    if (id.startsWith('ann-')) {
+      setAnnouncements((prev) => prev.filter((a) => a.id !== id))
+      showToast('Pengumuman berhasil dihapus.', 'success')
+      setActionLoading(null)
+      return
+    }
+
     const { error } = await supabase
       .from('announcements')
       .delete()
@@ -89,7 +96,7 @@ export function AnnouncementQueue() {
       showToast('Gagal menghapus: ' + error.message, 'error')
     } else {
       showToast('Pengumuman berhasil dihapus.', 'success')
-      fetchAnnouncements()
+      setAnnouncements((prev) => prev.filter((a) => a.id !== id))
     }
     setActionLoading(null)
   }
@@ -115,14 +122,20 @@ export function AnnouncementQueue() {
     if (!confirm(`Yakin ingin menghapus massal ${selectedIds.length} pengumuman yang dipilih?`)) return
 
     setBulkDeleting(true)
-    const { error } = await supabase.from('announcements').delete().in('id', selectedIds)
+    const realIds = selectedIds.filter((id) => !id.startsWith('ann-'))
 
-    if (error) {
-      showToast('Gagal menghapus massal: ' + error.message, 'error')
-    } else {
-      showToast(`Berhasil menghapus ${selectedIds.length} pengumuman lama!`, 'success')
-      fetchAnnouncements()
+    if (realIds.length > 0) {
+      const { error } = await supabase.from('announcements').delete().in('id', realIds)
+      if (error) {
+        showToast('Gagal menghapus massal: ' + error.message, 'error')
+        setBulkDeleting(false)
+        return
+      }
     }
+
+    showToast(`Berhasil menghapus ${selectedIds.length} pengumuman lama!`, 'success')
+    setAnnouncements((prev) => prev.filter((a) => !selectedIds.includes(a.id)))
+    setSelectedIds([])
     setBulkDeleting(false)
   }
 
