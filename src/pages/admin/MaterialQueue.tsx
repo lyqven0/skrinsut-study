@@ -77,10 +77,12 @@ export function MaterialQueue() {
     if (!confirm('Yakin ingin menghapus materi ini secara permanen?')) return
 
     setActionLoading(id)
-    const { error } = await supabase.from('materials').delete().eq('id', id)
+    const { data: deletedRows, error } = await supabase.from('materials').delete().eq('id', id).select()
 
     if (error) {
       showToast('Gagal menghapus: ' + error.message, 'error')
+    } else if (!deletedRows || deletedRows.length === 0) {
+      showToast('Gagal menghapus: Supabase RLS memblokir hapus. Tambahkan policy DELETE di Supabase!', 'error')
     } else {
       showToast('Materi berhasil dihapus.', 'success')
       fetchMaterials()

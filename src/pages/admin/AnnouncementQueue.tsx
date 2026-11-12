@@ -87,15 +87,18 @@ export function AnnouncementQueue() {
       return
     }
 
-    const { error } = await supabase
+    const { data: deletedRows, error } = await supabase
       .from('announcements')
       .delete()
       .eq('id', id)
+      .select()
 
     if (error) {
       showToast('Gagal menghapus: ' + error.message, 'error')
+    } else if (!deletedRows || deletedRows.length === 0) {
+      showToast('Gagal menghapus: Supabase RLS memblokir hapus. Tambahkan policy DELETE di Supabase!', 'error')
     } else {
-      showToast('Pengumuman berhasil dihapus.', 'success')
+      showToast('Pengumuman berhasil dihapus permanen.', 'success')
       setAnnouncements((prev) => prev.filter((a) => a.id !== id))
     }
     setActionLoading(null)
@@ -125,9 +128,18 @@ export function AnnouncementQueue() {
     const realIds = selectedIds.filter((id) => !id.startsWith('ann-'))
 
     if (realIds.length > 0) {
-      const { error } = await supabase.from('announcements').delete().in('id', realIds)
+      const { data: deletedRows, error } = await supabase
+        .from('announcements')
+        .delete()
+        .in('id', realIds)
+        .select()
+
       if (error) {
         showToast('Gagal menghapus massal: ' + error.message, 'error')
+        setBulkDeleting(false)
+        return
+      } else if (!deletedRows || deletedRows.length === 0) {
+        showToast('Gagal menghapus: Supabase RLS memblokir hapus. Tambahkan policy DELETE di Supabase!', 'error')
         setBulkDeleting(false)
         return
       }
