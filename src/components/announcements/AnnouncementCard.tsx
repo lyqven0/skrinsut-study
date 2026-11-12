@@ -1,14 +1,13 @@
-import { CalendarPlus, Clock, User, Trash2 } from 'lucide-react'
+import { CalendarPlus, Clock, User } from 'lucide-react'
 import type { Announcement } from '@/lib/types'
 import { UrgencyChip } from './UrgencyChip'
 import { formatTanggal } from '@/lib/utils'
 
 interface AnnouncementCardProps {
   announcement: Announcement
-  onDelete?: (id: string) => void
 }
 
-export function AnnouncementCard({ announcement, onDelete }: AnnouncementCardProps) {
+export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
   const deadlineDate = new Date(announcement.deadline)
   
   // Format exact date & time for display
@@ -92,18 +91,6 @@ export function AnnouncementCard({ announcement, onDelete }: AnnouncementCardPro
               <User size={13} />
               <span>{announcement.ditambahkan_oleh}</span>
             </div>
-          )}
-
-          {onDelete && (
-            <button
-              type="button"
-              onClick={() => onDelete(announcement.id)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 backdrop-blur-sm shadow-xs transition-all active:scale-95 cursor-pointer"
-              title="Hapus Pengumuman (Admin)"
-            >
-              <Trash2 size={13} />
-              <span>Hapus</span>
-            </button>
           )}
 
           <button
