@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Check, X, Trash2, Clock, CheckCircle, Loader2, CheckSquare, Square } from 'lucide-react'
+import { Check, X, Trash2, Clock, CheckCircle, Loader2, CheckSquare, Square, Plus } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import type { Announcement } from '@/lib/types'
+import type { Announcement, Course } from '@/lib/types'
 import { formatTanggal, formatDeadline } from '@/lib/utils'
 import { useToast } from '@/components/ui/Toast'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { MOCK_COURSES } from '@/lib/mockData'
 
 export function AnnouncementQueue() {
   const { showToast } = useToast()
@@ -14,6 +15,78 @@ export function AnnouncementQueue() {
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [bulkDeleting, setBulkDeleting] = useState(false)
+
+  // Add Announcement Modal state
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [courses, setCourses] = useState<Course[]>([])
+  const [courseId, setCourseId] = useState('')
+  const [judul, setJudul] = useState('')
+  const [deadlineDate, setDeadlineDate] = useState('')
+  const [deadlineTime, setDeadlineTime] = useState('23:59')
+  const [hanyaTanggal, setHanyaTanggal] = useState(false)
+  const [catatan, setCatatan] = useState('')
+  const [ditambahkanOleh, setDitambahkanOleh] = useState('Admin')
+  const [savingNew, setSavingNew] = useState(false)
+
+  useEffect(() => {
+    async function loadCourses() {
+      const { data } = await supabase.from('courses').select('*').order('nama')
+      const list = (data && data.length > 0) ? data : MOCK_COURSES
+      setCourses(list)
+      if (list.length > 0 && !courseId) {
+        setCourseId(list[0].id)
+      }
+    }
+    loadCourses()
+  }, [])
+
+  const handleCreateAnnouncement = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!courseId || !judul.trim() || !deadlineDate) {
+      showToast('Mohon lengkapi mata kuliah, judul, dan tanggal deadline!', 'error')
+      return
+    }
+
+    setSavingNew(true)
+    try {
+      const isoDeadline = hanyaTanggal
+        ? new Date(`${deadlineDate}T23:59:59+07:00`).toISOString()
+        : new Date(`${deadlineDate}T${deadlineTime || '23:59'}:00+07:00`).toISOString()
+
+      const { data, error } = await supabase.from('announcements').insert([
+        {
+          course_id: courseId,
+          judul: judul.trim(),
+          deadline: isoDeadline,
+          deadline_hanya_tanggal: hanyaTanggal,
+          catatan: catatan.trim() || null,
+          ditambahkan_oleh: ditambahkanOleh.trim() || 'Admin',
+          status: 'disetujui',
+          disetujui_oleh: 'Admin',
+          disetujui_pada: new Date().toISOString(),
+        },
+      ]).select('*, courses(*)')
+
+      if (error) throw error
+
+      showToast('Tugas baru berhasil ditambahkan dan langsung dipublikasikan!', 'success')
+      setIsAddModalOpen(false)
+      setJudul('')
+      setCatatan('')
+      setDeadlineDate('')
+      setActiveTab('disetujui')
+      if (data && data.length > 0) {
+        setAnnouncements((prev) => [data[0], ...prev])
+      } else {
+        fetchAnnouncements()
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Gagal menambahkan tugas'
+      showToast(msg, 'error')
+    } finally {
+      setSavingNew(false)
+    }
+  }
 
   const fetchAnnouncements = async () => {
     setLoading(true)
@@ -164,6 +237,15 @@ export function AnnouncementQueue() {
             Verifikasi usulan tugas dari mahasiswa atau bersihkan tugas lama yang telah lewat.
           </p>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setIsAddModalOpen(true)}
+          className="liquid-button-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-white cursor-pointer shadow-md"
+        >
+          <Plus size={16} />
+          <span>Tambah Tugas Langsung</span>
+        </button>
       </div>
 
       {/* Tabs */}
@@ -354,6 +436,155 @@ export function AnnouncementQueue() {
               </div>
             )
           })}
+        </div>
+      )}
+
+      {/* Modal Tambah Tugas Langsung oleh Admin */}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl animate-in fade-in duration-200">
+          <div className="w-full max-w-lg p-6 rounded-3xl border border-white/60 dark:border-white/10 liquid-glass shadow-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/[0.08] pb-3">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                  Tambah Tugas Baru
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Tugas yang ditambahkan admin akan langsung terpublikasi ke kelas.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsAddModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-white/40 dark:hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateAnnouncement} className="flex flex-col gap-3.5 text-xs">
+              <div>
+                <label className="block font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                  Mata Kuliah <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={courseId}
+                  onChange={(e) => setCourseId(e.target.value)}
+                  required
+                  className="w-full h-10 px-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-medium"
+                  style={{ color: 'var(--color-text)' }}
+                >
+                  {courses.map((c) => (
+                    <option key={c.id} value={c.id} className="bg-white dark:bg-slate-900">
+                      {c.kode} — {c.nama}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                  Judul Tugas <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={judul}
+                  onChange={(e) => setJudul(e.target.value)}
+                  placeholder="Contoh: Tugas 4: Normalisasi Basis Data & Skema Relasi"
+                  required
+                  className="w-full h-10 px-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-medium"
+                  style={{ color: 'var(--color-text)' }}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                    Tanggal Deadline <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={deadlineDate}
+                    onChange={(e) => setDeadlineDate(e.target.value)}
+                    required
+                    className="w-full h-10 px-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-medium"
+                    style={{ color: 'var(--color-text)' }}
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                    Jam Deadline
+                  </label>
+                  <input
+                    type="time"
+                    value={deadlineTime}
+                    disabled={hanyaTanggal}
+                    onChange={(e) => setDeadlineTime(e.target.value)}
+                    className="w-full h-10 px-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-medium disabled:opacity-40"
+                    style={{ color: 'var(--color-text)' }}
+                  />
+                </div>
+              </div>
+
+              <label className="flex items-center gap-2 cursor-pointer pt-0.5">
+                <input
+                  type="checkbox"
+                  checked={hanyaTanggal}
+                  onChange={(e) => setHanyaTanggal(e.target.checked)}
+                  className="rounded text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-slate-600 dark:text-slate-400 font-medium">
+                  Hanya tanggal (tenggat hingga 23:59 WIB pada hari tersebut)
+                </span>
+              </label>
+
+              <div>
+                <label className="block font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                  Catatan / Instruksi Tugas (Opsional)
+                </label>
+                <textarea
+                  value={catatan}
+                  onChange={(e) => setCatatan(e.target.value)}
+                  rows={3}
+                  placeholder="Format pengumpulan, tautan Google Drive / Classroom, dsb."
+                  className="w-full p-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-medium"
+                  style={{ color: 'var(--color-text)' }}
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                  Ditambahkan Oleh
+                </label>
+                <input
+                  type="text"
+                  value={ditambahkanOleh}
+                  onChange={(e) => setDitambahkanOleh(e.target.value)}
+                  placeholder="Admin Kelas / PJ Matkul"
+                  className="w-full h-10 px-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] font-medium"
+                  style={{ color: 'var(--color-text)' }}
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-200/60 dark:border-white/[0.08]">
+                <button
+                  type="button"
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-4 py-2 rounded-xl font-bold text-slate-600 dark:text-slate-300 hover:bg-white/40 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingNew}
+                  className="liquid-button-primary px-5 py-2 rounded-xl font-bold text-white flex items-center gap-1.5 shadow-md cursor-pointer disabled:opacity-50"
+                >
+                  {savingNew && <Loader2 size={14} className="animate-spin" />}
+                  <span>Simpan & Publikasikan</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>
