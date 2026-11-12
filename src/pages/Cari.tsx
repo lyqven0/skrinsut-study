@@ -147,26 +147,22 @@ export function Cari() {
 
           {/* Materials matches */}
           {materials.length > 0 && (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
-                <GraduationCap size={14} />
+                <GraduationCap size={14} className="text-emerald-500" />
                 <span>Materi Pembelajaran ({materials.length})</span>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 {materials.map((m) => (
                   <div
                     key={m.id}
-                    className="p-3 rounded-lg border flex items-center justify-between gap-3"
-                    style={{
-                      backgroundColor: 'var(--color-card)',
-                      borderColor: 'var(--color-border)',
-                    }}
+                    className="liquid-glass-card p-3.5 flex items-center justify-between gap-3"
                   >
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-[var(--color-accent)]">
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full liquid-glass-pill bg-blue-500/10 text-[var(--color-accent)] border border-blue-500/20">
                         {m.courses?.nama} • {m.topik}
                       </span>
-                      <h4 className="font-bold text-sm mt-0.5" style={{ color: 'var(--color-text)' }}>
+                      <h4 className="font-bold text-sm mt-1" style={{ color: 'var(--color-text)' }}>
                         {m.judul}
                       </h4>
                     </div>
@@ -175,7 +171,7 @@ export function Cari() {
                         href={m.tautan}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs font-bold text-[var(--color-accent)] hover:underline flex items-center gap-1 shrink-0"
+                        className="text-xs font-bold text-[var(--color-accent)] hover:underline flex items-center gap-1 shrink-0 px-2.5 py-1 rounded-lg liquid-glass-pill"
                       >
                         <span>Buka</span>
                         <ExternalLink size={12} />
@@ -189,22 +185,18 @@ export function Cari() {
 
           {/* Questions matches */}
           {questions.length > 0 && (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
-                <HelpCircle size={14} />
+                <HelpCircle size={14} className="text-purple-500" />
                 <span>Bank Soal ({questions.length})</span>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 {questions.map((q) => (
                   <div
                     key={q.id}
-                    className="p-3 rounded-lg border flex flex-col gap-1"
-                    style={{
-                      backgroundColor: 'var(--color-card)',
-                      borderColor: 'var(--color-border)',
-                    }}
+                    className="liquid-glass-card p-3.5 flex flex-col gap-1.5"
                   >
-                    <span className="text-[10px] uppercase font-bold text-[var(--color-accent)]">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full liquid-glass-pill bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 w-fit">
                       {q.courses?.nama} • {q.topik}
                     </span>
                     <p className="text-xs font-medium line-clamp-2" style={{ color: 'var(--color-text)' }}>

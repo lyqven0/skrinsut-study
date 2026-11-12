@@ -429,41 +429,43 @@ export function Simulasi() {
   return (
     <div className="flex flex-col gap-6 max-w-2xl mx-auto pb-12">
       {/* Header score */}
-      <div
-        className="p-6 rounded-2xl border text-center flex flex-col items-center gap-3"
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
-      >
+      <div className="liquid-glass-card p-6 sm:p-8 text-center flex flex-col items-center gap-3">
         <div
-          className="w-16 h-16 rounded-full flex items-center justify-center text-white shadow-md"
-          style={{ backgroundColor: score >= 70 ? '#10b981' : '#f59e0b' }}
+          className="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-xl relative overflow-hidden"
+          style={{
+            background: score >= 70
+              ? 'linear-gradient(135deg, #10b981, #059669)'
+              : 'linear-gradient(135deg, #f59e0b, #d97706)',
+            boxShadow: score >= 70
+              ? '0 10px 25px -4px rgba(16, 185, 129, 0.4)'
+              : '0 10px 25px -4px rgba(245, 158, 11, 0.4)',
+          }}
         >
-          <Award size={32} />
+          <div className="absolute inset-0 bg-white/20 backdrop-blur-[1px]" />
+          <Award size={32} className="relative z-10 drop-shadow-md" />
         </div>
 
         <div>
-          <h2 className="text-2xl font-black" style={{ color: 'var(--color-text)' }}>
+          <h2 className="text-2xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
             Hasil Simulasi Ujian
           </h2>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
             Berikut ringkasan nilai dan pembahasan seluruh soal.
           </p>
         </div>
 
         <div className="flex items-center gap-6 mt-1">
           <div>
-            <span className="text-xs text-gray-400 block">Nilai Akhir</span>
-            <span className="text-3xl font-black" style={{ color: 'var(--color-accent)' }}>
+            <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold block">Nilai Akhir</span>
+            <span className="text-3xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent">
               {score}%
             </span>
           </div>
-          <div className="w-px h-8 bg-gray-200 dark:bg-neutral-800" />
+          <div className="w-px h-8 bg-slate-200 dark:bg-white/10" />
           <div>
-            <span className="text-xs text-gray-400 block">Benar / Total</span>
-            <span className="text-2xl font-bold" style={{ color: 'var(--color-text)' }}>
-              {correct} <span className="text-sm font-normal text-gray-400">/ {total}</span>
+            <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold block">Benar / Total</span>
+            <span className="text-2xl font-black" style={{ color: 'var(--color-text)' }}>
+              {correct} <span className="text-sm font-normal text-slate-400 dark:text-slate-500">/ {total}</span>
             </span>
           </div>
         </div>
@@ -471,8 +473,7 @@ export function Simulasi() {
         <button
           type="button"
           onClick={() => setState('setup')}
-          className="mt-2 px-5 h-10 rounded-xl text-xs font-bold text-white shadow-sm flex items-center gap-1.5"
-          style={{ backgroundColor: 'var(--color-accent)' }}
+          className="liquid-button-primary mt-2 px-5 h-10 rounded-xl text-xs font-bold text-white flex items-center gap-1.5 cursor-pointer"
         >
           <RotateCcw size={14} />
           <span>Ulangi Simulasi Ujian</span>
@@ -481,7 +482,7 @@ export function Simulasi() {
 
       {/* Full Question Breakdown & Explanations */}
       <div className="flex flex-col gap-3">
-        <h3 className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
+        <h3 className="font-bold text-sm tracking-wide" style={{ color: 'var(--color-text)' }}>
           Pembahasan Soal ({questions.length} Soal)
         </h3>
 
@@ -492,10 +493,8 @@ export function Simulasi() {
           return (
             <div
               key={q.id}
-              className="p-4 rounded-xl border flex flex-col gap-2.5"
+              className="liquid-glass-card p-4 flex flex-col gap-2.5 relative overflow-hidden"
               style={{
-                backgroundColor: 'var(--color-card)',
-                borderColor: 'var(--color-border)',
                 borderLeft: isCorrect ? '4px solid #10b981' : '4px solid #ef4444',
               }}
             >
@@ -504,10 +503,10 @@ export function Simulasi() {
                   Soal No. {idx + 1} ({q.topik})
                 </span>
                 <span
-                  className={`px-2 py-0.5 rounded text-[11px] font-bold flex items-center gap-1 ${
+                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1.5 liquid-glass-pill ${
                     isCorrect
-                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
-                      : 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400'
+                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25'
+                      : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/25'
                   }`}
                 >
                   {isCorrect ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
@@ -517,11 +516,11 @@ export function Simulasi() {
 
               <KaTeXRenderer content={q.pertanyaan} className="text-sm font-semibold" />
 
-              <div className="text-xs text-gray-500 flex flex-col gap-1 pt-1 border-t dark:border-neutral-800">
-                <span>Kunci Jawaban: <strong className="uppercase text-emerald-600">{q.kunci}</strong></span>
+              <div className="text-xs text-slate-500 dark:text-slate-400 flex flex-col gap-1.5 pt-2 border-t border-slate-200/50 dark:border-white/10">
+                <span>Kunci Jawaban: <strong className="uppercase text-emerald-600 dark:text-emerald-400 font-extrabold">{q.kunci}</strong></span>
                 {q.pembahasan && (
-                  <div className="bg-gray-50 dark:bg-neutral-800/50 p-2.5 rounded-lg mt-1 text-gray-700 dark:text-gray-300">
-                    <strong className="block mb-0.5">Pembahasan:</strong>
+                  <div className="p-3 rounded-xl mt-1 text-slate-700 dark:text-slate-300 bg-white/40 dark:bg-black/30 border border-white/50 dark:border-white/5 backdrop-blur-sm">
+                    <strong className="block mb-1 text-[var(--color-accent)]">Pembahasan:</strong>
                     <KaTeXRenderer content={q.pembahasan} />
                   </div>
                 )}

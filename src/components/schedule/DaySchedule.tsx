@@ -22,32 +22,31 @@ export function DaySchedule({ label, schedules, isToday }: DayScheduleProps) {
           </h3>
           {isToday && (
             <span
-              className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full liquid-glass-pill bg-blue-500/15 text-[var(--color-accent)] border border-blue-500/30 shadow-[0_0_10px_rgba(79,110,247,0.2)]"
             >
               HARI INI
             </span>
           )}
         </div>
-        <span className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+        <span className="text-xs font-semibold px-2 py-0.5 rounded-full liquid-glass-pill text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-white/5">
           {sorted.length} Kelas
         </span>
       </div>
 
       {sorted.length === 0 ? (
         <div
-          className="p-5 rounded-xl border border-dashed flex flex-col items-center justify-center text-center gap-1.5"
+          className="p-5 rounded-2xl border border-dashed flex flex-col items-center justify-center text-center gap-2 liquid-glass-card border-slate-300/70 dark:border-white/10"
           style={{
-            backgroundColor: 'var(--color-bg-secondary)',
-            borderColor: 'var(--color-border)',
             color: 'var(--color-text-secondary)',
           }}
         >
-          <Calendar size={18} className="opacity-40" />
-          <span className="text-xs font-medium">Tidak ada kuliah</span>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-slate-200/50 dark:bg-white/5 text-slate-400">
+            <Calendar size={18} />
+          </div>
+          <span className="text-xs font-semibold">Tidak ada kuliah hari ini</span>
         </div>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
           {sorted.map((s) => (
             <ScheduleCard key={s.id} schedule={s} />
           ))}

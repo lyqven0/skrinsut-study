@@ -84,17 +84,19 @@ export function AdminLayout() {
   ]
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row" style={{ backgroundColor: 'var(--color-bg-secondary)' }}>
+    <div className="min-h-screen flex flex-col md:flex-row relative" style={{ backgroundColor: 'var(--color-bg)' }}>
+      {/* Ambient gradient orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 -right-20 w-96 h-96 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl" />
+      </div>
+
       {/* Mobile Admin Bar */}
-      <div
-        className="md:hidden flex items-center justify-between px-4 h-14 border-b z-30 sticky top-0"
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
-      >
+      <div className="md:hidden flex items-center justify-between px-4 h-14 border-b border-white/60 dark:border-white/10 liquid-glass z-30 sticky top-0">
         <div className="flex items-center gap-2">
-          <ShieldCheck size={18} style={{ color: 'var(--color-accent)' }} />
+          <div className="w-7 h-7 rounded-lg liquid-button-primary flex items-center justify-center text-white">
+            <ShieldCheck size={16} />
+          </div>
           <span className="font-bold text-sm" style={{ color: 'var(--color-text)' }}>
             Panel Admin Kelas
           </span>
@@ -103,8 +105,7 @@ export function AdminLayout() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 rounded-lg"
-          style={{ color: 'var(--color-text)' }}
+          className="p-2 rounded-xl liquid-glass-pill text-slate-600 dark:text-slate-300"
         >
           {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -114,30 +115,23 @@ export function AdminLayout() {
       <aside
         className={`${
           mobileMenuOpen ? 'flex' : 'hidden'
-        } md:flex flex-col w-full md:w-64 border-r shrink-0 p-4 gap-4 z-20`}
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
+        } md:flex flex-col w-full md:w-64 border-r border-white/60 dark:border-white/10 liquid-glass shrink-0 p-4 gap-4 z-20 md:min-h-screen md:sticky md:top-0`}
       >
-        <div className="hidden md:flex items-center gap-2 px-2 py-3 border-b" style={{ borderColor: 'var(--color-border)' }}>
-          <div
-            className="w-7 h-7 rounded-md flex items-center justify-center text-white font-bold"
-            style={{ backgroundColor: 'var(--color-accent)' }}
-          >
-            <ShieldCheck size={16} />
+        <div className="hidden md:flex items-center gap-2.5 px-2 py-3 border-b border-slate-200/60 dark:border-white/[0.08]">
+          <div className="w-8 h-8 rounded-xl liquid-button-primary flex items-center justify-center text-white font-bold shadow-md">
+            <ShieldCheck size={18} />
           </div>
           <div>
-            <h2 className="font-bold text-sm leading-tight" style={{ color: 'var(--color-text)' }}>
+            <h2 className="font-black text-sm leading-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
               Panel Admin
             </h2>
-            <span className="text-[10px] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-accent)]">
               Skrinsut Study
             </span>
           </div>
         </div>
 
-        <nav className="flex flex-col gap-1 flex-1">
+        <nav className="flex flex-col gap-1.5 flex-1">
           {adminNav.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
@@ -145,10 +139,10 @@ export function AdminLayout() {
               end={end}
               onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
-                `flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
+                `flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-blue-50 dark:bg-blue-950/40 text-[var(--color-accent)]'
-                    : 'text-[var(--color-text-secondary)] hover:bg-gray-100 dark:hover:bg-neutral-800 hover:text-[var(--color-text)]'
+                    ? 'liquid-glass-pill bg-blue-500/15 text-[var(--color-accent)] border border-blue-500/30 shadow-sm'
+                    : 'text-[var(--color-text-secondary)] hover:bg-white/40 dark:hover:bg-white/5 hover:text-[var(--color-text)]'
                 }`
               }
             >
@@ -158,17 +152,17 @@ export function AdminLayout() {
           ))}
         </nav>
 
-        <div className="pt-3 border-t flex flex-col gap-2" style={{ borderColor: 'var(--color-border)' }}>
+        <div className="pt-3 border-t border-slate-200/60 dark:border-white/[0.08] flex flex-col gap-2">
           <Link
             to="/"
-            className="text-xs font-medium px-3 py-2 rounded-lg text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+            className="text-xs font-semibold px-3 py-2 rounded-xl text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/5 transition-colors"
           >
             ← Kembali ke Web Publik
           </Link>
           <button
             type="button"
             onClick={handleLogout}
-            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-colors cursor-pointer"
           >
             <LogOut size={15} />
             <span>Keluar Akun</span>
@@ -177,7 +171,7 @@ export function AdminLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 md:p-8 max-w-5xl overflow-y-auto">
+      <main className="flex-1 p-4 md:p-8 max-w-5xl overflow-y-auto relative z-10">
         <Outlet />
       </main>
     </div>

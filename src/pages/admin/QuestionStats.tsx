@@ -52,8 +52,8 @@ export function QuestionStats() {
         <button
           type="button"
           onClick={fetchStats}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
-          style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold liquid-glass-pill hover:text-[var(--color-accent)] transition-colors cursor-pointer border border-white/60 dark:border-white/10"
+          style={{ color: 'var(--color-text)' }}
         >
           <RefreshCw size={13} />
           <span>Segarkan Data</span>
@@ -62,23 +62,16 @@ export function QuestionStats() {
 
       {loading ? (
         <div className="flex flex-col gap-3">
-          <Skeleton className="h-24 rounded-xl" />
-          <Skeleton className="h-24 rounded-xl" />
+          <Skeleton className="h-24 rounded-2xl" />
+          <Skeleton className="h-24 rounded-2xl" />
         </div>
       ) : stats.length === 0 ? (
-        <div
-          className="p-8 rounded-xl border text-center flex flex-col items-center justify-center gap-2"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-            color: 'var(--color-text-secondary)',
-          }}
-        >
-          <BarChart3 size={32} className="opacity-40" />
-          <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
+        <div className="liquid-glass-card p-8 text-center flex flex-col items-center justify-center gap-2.5">
+          <BarChart3 size={32} className="opacity-40 text-[var(--color-accent)]" />
+          <p className="text-sm font-bold" style={{ color: 'var(--color-text)' }}>
             Belum ada aktivitas latihan yang tercatat.
           </p>
-          <p className="text-xs">Statistik akan otomatis terakumulasi saat mahasiswa menyelesaikan latihan soal.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Statistik akan otomatis terakumulasi saat mahasiswa menyelesaikan latihan soal.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -88,41 +81,31 @@ export function QuestionStats() {
             const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0
 
             let difficultyLabel = 'Sedang'
-            let badgeColor = 'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400 border-amber-200'
+            let badgeStyle = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25'
             if (accuracy >= 70) {
               difficultyLabel = 'Mudah'
-              badgeColor = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 border-emerald-200'
+              badgeStyle = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
             } else if (accuracy < 40) {
               difficultyLabel = 'Tingkat Sulit'
-              badgeColor = 'bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400 border-rose-200'
+              badgeStyle = 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25'
             }
 
             return (
               <div
                 key={row.question_id}
-                className="p-4 rounded-xl border flex flex-col gap-3"
-                style={{
-                  backgroundColor: 'var(--color-card)',
-                  borderColor: 'var(--color-border)',
-                }}
+                className="liquid-glass-card p-4 sm:p-5 flex flex-col gap-3"
               >
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <span
-                      className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"
-                      style={{
-                        backgroundColor: 'var(--color-bg-secondary)',
-                        color: 'var(--color-accent)',
-                      }}
-                    >
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider liquid-glass-pill bg-blue-500/10 text-[var(--color-accent)] border border-blue-500/20">
                       {row.questions?.courses?.nama || 'Mata Kuliah'} • {row.questions?.topik}
                     </span>
-                    <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${badgeColor}`}>
+                    <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full liquid-glass-pill border ${badgeStyle}`}>
                       {difficultyLabel} ({accuracy}% Akurasi)
                     </span>
                   </div>
 
-                  <div className="text-xs font-mono font-semibold text-gray-500">
+                  <div className="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
                     {correct} / {answered} Benar ({answered} Kali Dijawab)
                   </div>
                 </div>
@@ -132,12 +115,16 @@ export function QuestionStats() {
                 </p>
 
                 {/* Accuracy progress visual bar */}
-                <div className="w-full h-2 rounded-full overflow-hidden bg-gray-100 dark:bg-neutral-800">
+                <div className="w-full h-2 rounded-full overflow-hidden bg-slate-200/50 dark:bg-white/10 backdrop-blur-sm">
                   <div
                     className="h-full rounded-full transition-all duration-300"
                     style={{
                       width: `${accuracy}%`,
-                      backgroundColor: accuracy >= 70 ? '#10b981' : accuracy >= 40 ? '#f59e0b' : '#ef4444',
+                      background: accuracy >= 70
+                        ? 'linear-gradient(90deg, #10b981, #059669)'
+                        : accuracy >= 40
+                        ? 'linear-gradient(90deg, #f59e0b, #d97706)'
+                        : 'linear-gradient(90deg, #ef4444, #dc2626)',
                     }}
                   />
                 </div>

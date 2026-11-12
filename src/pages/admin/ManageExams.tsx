@@ -126,8 +126,7 @@ export function ManageExams() {
           type="button"
           onClick={openAddModal}
           disabled={courses.length === 0}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-white shadow-sm disabled:opacity-50"
-          style={{ backgroundColor: 'var(--color-accent)' }}
+          className="liquid-button-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-white cursor-pointer disabled:opacity-50"
         >
           <Plus size={16} />
           <span>Tambah Jadwal Ujian</span>
@@ -136,52 +135,41 @@ export function ManageExams() {
 
       {loading ? (
         <div className="flex flex-col gap-3">
-          <Skeleton className="h-24 rounded-xl" />
-          <Skeleton className="h-24 rounded-xl" />
+          <Skeleton className="h-24 rounded-2xl" />
+          <Skeleton className="h-24 rounded-2xl" />
         </div>
       ) : exams.length === 0 ? (
-        <div
-          className="p-8 rounded-xl border text-center flex flex-col items-center justify-center gap-2"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-            color: 'var(--color-text-secondary)',
-          }}
-        >
-          <Calendar size={30} className="opacity-40" />
-          <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
+        <div className="liquid-glass-card p-8 text-center flex flex-col items-center justify-center gap-2.5">
+          <Calendar size={32} className="opacity-40 text-[var(--color-accent)]" />
+          <p className="text-sm font-bold" style={{ color: 'var(--color-text)' }}>
             Belum ada jadwal ujian yang dimasukkan.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {exams.map((exam) => (
             <div
               key={exam.id}
-              className="p-4 rounded-xl border flex items-center justify-between gap-3"
-              style={{
-                backgroundColor: 'var(--color-card)',
-                borderColor: 'var(--color-border)',
-              }}
+              className="liquid-glass-card p-4 flex items-center justify-between gap-3"
             >
               <div>
                 <div className="flex items-center gap-2">
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider liquid-glass-pill ${
                       exam.jenis === 'uts'
-                        ? 'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400'
-                        : 'bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-400'
+                        ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20'
+                        : 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20'
                     }`}
                   >
                     {exam.jenis.toUpperCase()}
                   </span>
-                  <span className="text-xs font-semibold" style={{ color: 'var(--color-text)' }}>
+                  <span className="text-xs font-bold" style={{ color: 'var(--color-text)' }}>
                     {exam.courses?.nama || 'Mata Kuliah'}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 mt-1.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-                  <span className="flex items-center gap-1 font-medium">
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                  <span className="flex items-center gap-1 font-semibold">
                     <Calendar size={13} />
                     <span>{formatTanggal(exam.tanggal)}</span>
                   </span>
@@ -204,14 +192,14 @@ export function ManageExams() {
                 <button
                   type="button"
                   onClick={() => openEditModal(exam)}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-neutral-800"
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/10 transition-colors cursor-pointer"
                 >
                   <Edit2 size={14} />
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDelete(exam.id)}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer"
                 >
                   <Trash2 size={14} />
                 </button>
@@ -223,22 +211,16 @@ export function ManageExams() {
 
       {/* Modal Form */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div
-            className="w-full max-w-md p-6 rounded-2xl border shadow-xl flex flex-col gap-4"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
-            <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
-              <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl animate-in fade-in duration-200">
+          <div className="w-full max-w-md p-6 rounded-3xl border border-white/60 dark:border-white/10 liquid-glass shadow-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/[0.08] pb-3">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                 {editingId ? 'Edit Jadwal Ujian' : 'Tambah Jadwal Ujian'}
               </h2>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-neutral-800"
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/10"
               >
                 <X size={18} />
               </button>
@@ -246,15 +228,15 @@ export function ManageExams() {
 
             <form onSubmit={handleSave} className="flex flex-col gap-3.5 text-sm">
               <div>
-                <label className="block text-xs font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
                   Mata Kuliah <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={courseId}
                   onChange={(e) => setCourseId(e.target.value)}
                   required
-                  className="w-full h-11 px-3 rounded-lg border bg-transparent"
-                  style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                  className="w-full h-11 px-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+                  style={{ color: 'var(--color-text)' }}
                 >
                   {courses.map((c) => (
                     <option key={c.id} value={c.id} className="dark:bg-neutral-900">
@@ -265,14 +247,14 @@ export function ManageExams() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
                   Jenis Ujian <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={jenis}
                   onChange={(e) => setJenis(e.target.value as JenisUjian)}
-                  className="w-full h-11 px-3 rounded-lg border bg-transparent"
-                  style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                  className="w-full h-11 px-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+                  style={{ color: 'var(--color-text)' }}
                 >
                   <option value="uts" className="dark:bg-neutral-900">UTS (Ujian Tengah Semester)</option>
                   <option value="uas" className="dark:bg-neutral-900">UAS (Ujian Akhir Semester)</option>
@@ -281,7 +263,7 @@ export function ManageExams() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold mb-1" style={{ color: 'var(--color-text)' }}>
+                  <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
                     Tanggal Ujian <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -289,27 +271,27 @@ export function ManageExams() {
                     value={tanggal}
                     onChange={(e) => setTanggal(e.target.value)}
                     required
-                    className="w-full h-11 px-3 rounded-lg border bg-transparent"
-                    style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                    className="w-full h-11 px-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+                    style={{ color: 'var(--color-text)' }}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold mb-1" style={{ color: 'var(--color-text)' }}>
-                    Jam Mulai <span className="text-xs font-normal text-gray-500">(opsional)</span>
+                  <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
+                    Jam Mulai <span className="text-xs font-normal text-slate-400">(opsional)</span>
                   </label>
                   <input
                     type="time"
                     value={jam}
                     onChange={(e) => setJam(e.target.value)}
-                    className="w-full h-11 px-3 rounded-lg border bg-transparent"
-                    style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                    className="w-full h-11 px-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+                    style={{ color: 'var(--color-text)' }}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold mb-1" style={{ color: 'var(--color-text)' }}>
-                  Ruang Ujian <span className="text-xs font-normal text-gray-500">(opsional)</span>
+                <label className="block text-xs font-bold mb-1.5" style={{ color: 'var(--color-text)' }}>
+                  Ruang Ujian <span className="text-xs font-normal text-slate-400">(opsional)</span>
                 </label>
                 <input
                   type="text"
@@ -317,25 +299,24 @@ export function ManageExams() {
                   onChange={(e) => setRuang(e.target.value)}
                   placeholder="Contoh: Gedung B Ruang 204"
                   maxLength={50}
-                  className="w-full h-11 px-3 rounded-lg border bg-transparent"
-                  style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                  className="w-full h-11 px-3.5 rounded-xl border text-sm bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]"
+                  style={{ color: 'var(--color-text)' }}
                 />
               </div>
 
-              <div className="pt-3 border-t flex items-center justify-end gap-2" style={{ borderColor: 'var(--color-border)' }}>
+              <div className="pt-3 border-t border-slate-200/60 dark:border-white/[0.08] flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 h-10 rounded-lg font-medium border"
-                  style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+                  className="px-4 h-10 rounded-xl font-medium border border-slate-200/60 dark:border-white/10 hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
+                  style={{ color: 'var(--color-text)' }}
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 h-10 rounded-lg font-bold text-white flex items-center gap-1.5 shadow-sm disabled:opacity-50"
-                  style={{ backgroundColor: 'var(--color-accent)' }}
+                  className="liquid-button-primary px-5 h-10 rounded-xl font-bold text-white flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
                 >
                   {saving && <Loader2 size={14} className="animate-spin" />}
                   <span>Simpan</span>

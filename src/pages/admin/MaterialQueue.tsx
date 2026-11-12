@@ -100,14 +100,14 @@ export function MaterialQueue() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b" style={{ borderColor: 'var(--color-border)' }}>
+      <div className="flex items-center gap-2 border-b border-slate-200/60 dark:border-white/[0.08] pb-1">
         <button
           type="button"
           onClick={() => setActiveTab('menunggu')}
-          className={`px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 -mb-px transition-colors flex items-center gap-1.5 cursor-pointer ${
+          className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === 'menunggu'
-              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
-              : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
+              ? 'liquid-glass-pill bg-blue-500/15 text-[var(--color-accent)] border border-blue-500/30 shadow-sm'
+              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
           }`}
         >
           <Clock size={16} />
@@ -117,10 +117,10 @@ export function MaterialQueue() {
         <button
           type="button"
           onClick={() => setActiveTab('disetujui')}
-          className={`px-4 py-2.5 text-xs sm:text-sm font-bold border-b-2 -mb-px transition-colors flex items-center gap-1.5 cursor-pointer ${
+          className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === 'disetujui'
-              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
-              : 'border-transparent text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
+              ? 'liquid-glass-pill bg-blue-500/15 text-[var(--color-accent)] border border-blue-500/30 shadow-sm'
+              : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
           }`}
         >
           <CheckCircle size={16} />
@@ -130,20 +130,13 @@ export function MaterialQueue() {
 
       {loading ? (
         <div className="flex flex-col gap-3">
-          <Skeleton className="h-28 rounded-xl" />
-          <Skeleton className="h-28 rounded-xl" />
+          <Skeleton className="h-28 rounded-2xl" />
+          <Skeleton className="h-28 rounded-2xl" />
         </div>
       ) : materials.length === 0 ? (
-        <div
-          className="p-8 rounded-xl border text-center flex flex-col items-center justify-center gap-2"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-            color: 'var(--color-text-secondary)',
-          }}
-        >
-          <CheckCircle size={28} className="opacity-40 text-emerald-500" />
-          <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
+        <div className="liquid-glass-card p-8 text-center flex flex-col items-center justify-center gap-2.5">
+          <CheckCircle size={32} className="opacity-60 text-emerald-500" />
+          <p className="text-sm font-bold" style={{ color: 'var(--color-text)' }}>
             {activeTab === 'menunggu'
               ? 'Tidak ada usulan materi yang menunggu persetujuan.'
               : 'Belum ada materi yang disetujui.'}
@@ -156,21 +149,11 @@ export function MaterialQueue() {
             return (
               <div
                 key={item.id}
-                className="p-4 rounded-xl border flex flex-col gap-3"
-                style={{
-                  backgroundColor: 'var(--color-card)',
-                  borderColor: 'var(--color-border)',
-                }}
+                className="liquid-glass-card p-4 sm:p-5 flex flex-col gap-3"
               >
                 <div className="flex items-start justify-between gap-2 flex-wrap">
                   <div>
-                    <span
-                      className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider"
-                      style={{
-                        backgroundColor: 'var(--color-bg-secondary)',
-                        color: 'var(--color-accent)',
-                      }}
-                    >
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider liquid-glass-pill bg-blue-500/10 text-[var(--color-accent)] border border-blue-500/20">
                       {item.courses?.nama || 'Mata Kuliah'} • Topik: {item.topik}
                     </span>
                     <h3 className="font-bold text-base mt-1.5" style={{ color: 'var(--color-text)' }}>
@@ -178,13 +161,13 @@ export function MaterialQueue() {
                     </h3>
                   </div>
 
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded uppercase border bg-gray-50 text-gray-700 dark:bg-neutral-800 dark:text-gray-300">
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase liquid-glass-pill bg-slate-200/60 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-300/40 dark:border-white/10">
                     {item.jenis}
                   </span>
                 </div>
 
                 {item.catatan && (
-                  <p className="text-xs text-gray-600 dark:text-gray-400 whitespace-pre-line bg-gray-50 dark:bg-neutral-800/60 p-2.5 rounded-lg border border-gray-100 dark:border-neutral-800">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 whitespace-pre-line p-3 rounded-xl bg-white/40 dark:bg-black/30 border border-white/50 dark:border-white/5 backdrop-blur-sm">
                     {item.catatan}
                   </p>
                 )}
@@ -194,20 +177,14 @@ export function MaterialQueue() {
                     href={item.tautan}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-[var(--color-accent)] font-semibold hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs text-[var(--color-accent)] font-semibold hover:underline w-fit px-2.5 py-1 rounded-lg liquid-glass-pill border border-blue-500/20"
                   >
                     <ExternalLink size={14} />
                     <span>Periksa Tautan: {item.tautan}</span>
                   </a>
                 )}
 
-                <div
-                  className="pt-2 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-                  style={{
-                    borderColor: 'var(--color-border)',
-                    color: 'var(--color-text-secondary)',
-                  }}
-                >
+                <div className="pt-3 border-t border-slate-200/60 dark:border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
                   <div className="flex items-center gap-3">
                     <span>Dibuat: {formatTanggal(item.dibuat_pada)}</span>
                     {item.ditambahkan_oleh && (
@@ -222,7 +199,7 @@ export function MaterialQueue() {
                           type="button"
                           onClick={() => handleReject(item.id)}
                           disabled={isActing}
-                          className="px-3 py-1.5 rounded-lg font-semibold border border-red-200 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          className="px-3.5 py-1.5 rounded-xl font-semibold border border-rose-500/30 text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
                         >
                           <X size={14} />
                           <span>Tolak</span>
@@ -231,7 +208,7 @@ export function MaterialQueue() {
                           type="button"
                           onClick={() => handleApprove(item.id)}
                           disabled={isActing}
-                          className="px-3.5 py-1.5 rounded-lg font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors flex items-center gap-1 shadow-sm cursor-pointer disabled:opacity-50"
+                          className="px-4 py-1.5 rounded-xl font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors flex items-center gap-1 shadow-md cursor-pointer disabled:opacity-50"
                         >
                           {isActing ? (
                             <Loader2 size={14} className="animate-spin" />
@@ -246,7 +223,7 @@ export function MaterialQueue() {
                         type="button"
                         onClick={() => handleDelete(item.id)}
                         disabled={isActing}
-                        className="px-3 py-1.5 rounded-lg font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                        className="px-3 py-1.5 rounded-xl font-semibold border border-slate-300 dark:border-white/10 text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
                       >
                         <Trash2 size={14} />
                         <span>Hapus</span>

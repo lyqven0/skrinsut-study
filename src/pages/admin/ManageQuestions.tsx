@@ -321,8 +321,8 @@ export function ManageQuestions() {
           <button
             type="button"
             onClick={() => setIsCsvModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold border transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800"
-            style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold liquid-glass-pill border border-white/60 dark:border-white/10 hover:border-blue-400/50 transition-colors cursor-pointer"
+            style={{ color: 'var(--color-text)' }}
           >
             <Upload size={14} />
             <span>Import CSV</span>
@@ -331,8 +331,7 @@ export function ManageQuestions() {
           <button
             type="button"
             onClick={openAddModal}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold text-white shadow-sm"
-            style={{ backgroundColor: 'var(--color-accent)' }}
+            className="liquid-button-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white cursor-pointer"
           >
             <Plus size={15} />
             <span>Tambah Satu Soal</span>
@@ -348,8 +347,8 @@ export function ManageQuestions() {
         <select
           value={selectedCourseFilter}
           onChange={(e) => setSelectedCourseFilter(e.target.value)}
-          className="h-9 px-3 rounded-lg border bg-transparent font-medium"
-          style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+          className="h-9 px-3 rounded-xl border bg-white/50 dark:bg-black/30 backdrop-blur-sm border-slate-200/60 dark:border-white/10 font-medium"
+          style={{ color: 'var(--color-text)' }}
         >
           <option value="semua" className="dark:bg-neutral-900">Semua Mata Kuliah ({questions.length} Soal)</option>
           {courses.map((c) => (
@@ -363,47 +362,30 @@ export function ManageQuestions() {
       {/* Questions list */}
       {loading ? (
         <div className="flex flex-col gap-3">
-          <Skeleton className="h-28 rounded-xl" />
-          <Skeleton className="h-28 rounded-xl" />
+          <Skeleton className="h-28 rounded-2xl" />
+          <Skeleton className="h-28 rounded-2xl" />
         </div>
       ) : filteredQuestions.length === 0 ? (
-        <div
-          className="p-8 rounded-xl border text-center flex flex-col items-center justify-center gap-2"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-            color: 'var(--color-text-secondary)',
-          }}
-        >
-          <HelpCircle size={30} className="opacity-40" />
-          <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
+        <div className="liquid-glass-card p-8 text-center flex flex-col items-center justify-center gap-2.5">
+          <HelpCircle size={32} className="opacity-40 text-[var(--color-accent)]" />
+          <p className="text-sm font-bold" style={{ color: 'var(--color-text)' }}>
             Belum ada soal pada mata kuliah ini.
           </p>
-          <p className="text-xs">Gunakan tombol &ldquo;Tambah Satu Soal&rdquo; atau &ldquo;Import CSV&rdquo; di atas.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Gunakan tombol &ldquo;Tambah Satu Soal&rdquo; atau &ldquo;Import CSV&rdquo; di atas.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
           {filteredQuestions.map((q) => (
             <div
               key={q.id}
-              className="p-4 rounded-xl border flex flex-col gap-3"
-              style={{
-                backgroundColor: 'var(--color-card)',
-                borderColor: 'var(--color-border)',
-              }}
+              className="liquid-glass-card p-4 sm:p-5 flex flex-col gap-3"
             >
               <div className="flex items-start justify-between gap-2 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <span
-                    className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider"
-                    style={{
-                      backgroundColor: 'var(--color-bg-secondary)',
-                      color: 'var(--color-accent)',
-                    }}
-                  >
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider liquid-glass-pill bg-blue-500/10 text-[var(--color-accent)] border border-blue-500/20">
                     {q.courses?.nama || 'Mata Kuliah'} • {q.topik}
                   </span>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
+                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full liquid-glass-pill bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25">
                     Kunci: {q.kunci.toUpperCase()}
                   </span>
                 </div>
@@ -412,7 +394,7 @@ export function ManageQuestions() {
                   <button
                     type="button"
                     onClick={() => openEditModal(q)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-neutral-800"
+                    className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/10 transition-colors cursor-pointer"
                     title="Edit Soal"
                   >
                     <Edit2 size={14} />
@@ -420,7 +402,7 @@ export function ManageQuestions() {
                   <button
                     type="button"
                     onClick={() => handleDelete(q.id)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
+                    className="w-8 h-8 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer"
                     title="Hapus Soal"
                   >
                     <Trash2 size={14} />
@@ -462,22 +444,16 @@ export function ManageQuestions() {
       {/* ADD / EDIT SINGLE QUESTION MODAL */}
       {/* --------------------------------------------------------- */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
-          <div
-            className="w-full max-w-xl p-6 rounded-2xl border shadow-xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto my-auto"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
-            <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
-              <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl animate-in fade-in duration-200 overflow-y-auto">
+          <div className="w-full max-w-xl p-6 rounded-3xl border border-white/60 dark:border-white/10 liquid-glass shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto my-auto">
+            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/[0.08] pb-3">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                 {editingId ? 'Edit Soal' : 'Tambah Soal Baru'}
               </h2>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-neutral-800"
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
               >
                 <X size={18} />
               </button>
@@ -646,18 +622,12 @@ export function ManageQuestions() {
       {/* CSV IMPORT MODAL WITH PREVIEW & VALIDATION */}
       {/* --------------------------------------------------------- */}
       {isCsvModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
-          <div
-            className="w-full max-w-2xl p-6 rounded-2xl border shadow-xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
-            style={{
-              backgroundColor: 'var(--color-card)',
-              borderColor: 'var(--color-border)',
-            }}
-          >
-            <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--color-border)' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl animate-in fade-in duration-200 overflow-y-auto">
+          <div className="w-full max-w-2xl p-6 rounded-3xl border border-white/60 dark:border-white/10 liquid-glass shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/[0.08] pb-3">
               <div className="flex items-center gap-2">
                 <FileSpreadsheet size={20} style={{ color: 'var(--color-accent)' }} />
-                <h2 className="text-lg font-bold" style={{ color: 'var(--color-text)' }}>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   Import Massal Soal dari CSV
                 </h2>
               </div>
@@ -668,7 +638,7 @@ export function ManageQuestions() {
                   setCsvPreview([])
                   setCsvErrors([])
                 }}
-                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 dark:hover:bg-neutral-800"
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/10 transition-colors"
               >
                 <X size={18} />
               </button>

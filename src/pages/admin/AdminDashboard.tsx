@@ -65,10 +65,10 @@ export function AdminDashboard() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--color-text)' }}>
+        <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
           Ringkasan Admin Kelas
         </h1>
-        <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+        <p className="text-xs sm:text-sm mt-1 font-medium" style={{ color: 'var(--color-text-secondary)' }}>
           Pantau usulan tugas & materi dari teman sekelas serta kelola bank soal perkuliahan.
         </p>
       </div>
@@ -77,25 +77,25 @@ export function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Pending Announcements */}
         <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
+          className="liquid-glass-card p-5 flex flex-col justify-between gap-3 relative overflow-hidden"
           style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
             borderLeft: counts.pendingAnnouncements > 0 ? '4px solid #f59e0b' : undefined,
           }}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Usulan Tugas
             </span>
-            <Clock size={16} className="text-amber-500" />
+            <div className="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 border border-amber-500/20">
+              <Clock size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.pendingAnnouncements}
           </div>
           <Link
             to="/admin/pengumuman"
-            className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 hover:underline"
+            className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 hover:underline w-fit"
           >
             <span>Tinjau Usulan</span>
             <ArrowRight size={13} />
@@ -104,25 +104,25 @@ export function AdminDashboard() {
 
         {/* Pending Materials */}
         <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
+          className="liquid-glass-card p-5 flex flex-col justify-between gap-3 relative overflow-hidden"
           style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
             borderLeft: counts.pendingMaterials > 0 ? '4px solid #f59e0b' : undefined,
           }}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Usulan Materi
             </span>
-            <GraduationCap size={16} className="text-amber-500" />
+            <div className="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 border border-amber-500/20">
+              <GraduationCap size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.pendingMaterials}
           </div>
           <Link
             to="/admin/materi"
-            className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 hover:underline"
+            className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 hover:underline w-fit"
           >
             <span>Tinjau Materi</span>
             <ArrowRight size={13} />
@@ -130,25 +130,21 @@ export function AdminDashboard() {
         </div>
 
         {/* Total Questions */}
-        <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="liquid-glass-card p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Bank Soal
             </span>
-            <HelpCircle size={16} style={{ color: 'var(--color-accent)' }} />
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-[var(--color-accent)] border border-blue-500/20">
+              <HelpCircle size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.totalQuestions}
           </div>
           <Link
             to="/admin/soal"
-            className="text-xs font-bold flex items-center gap-1 hover:underline"
+            className="text-xs font-bold flex items-center gap-1 hover:underline w-fit"
             style={{ color: 'var(--color-accent)' }}
           >
             <span>Kelola Soal</span>
@@ -158,25 +154,25 @@ export function AdminDashboard() {
 
         {/* Question Reports */}
         <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
+          className="liquid-glass-card p-5 flex flex-col justify-between gap-3 relative overflow-hidden"
           style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
             borderLeft: counts.newReports > 0 ? '4px solid #ef4444' : undefined,
           }}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Laporan Soal
             </span>
-            <AlertTriangle size={16} className="text-rose-500" />
+            <div className="w-8 h-8 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-500 border border-rose-500/20">
+              <AlertTriangle size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.newReports}
           </div>
           <Link
             to="/admin/laporan-soal"
-            className="text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1 hover:underline"
+            className="text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1 hover:underline w-fit"
           >
             <span>Lihat Laporan</span>
             <ArrowRight size={13} />
@@ -184,25 +180,21 @@ export function AdminDashboard() {
         </div>
 
         {/* Courses */}
-        <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="liquid-glass-card p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Mata Kuliah
             </span>
-            <BookOpen size={16} style={{ color: 'var(--color-accent)' }} />
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-[var(--color-accent)] border border-blue-500/20">
+              <BookOpen size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.courses}
           </div>
           <Link
             to="/admin/mata-kuliah"
-            className="text-xs font-bold flex items-center gap-1 hover:underline"
+            className="text-xs font-bold flex items-center gap-1 hover:underline w-fit"
             style={{ color: 'var(--color-accent)' }}
           >
             <span>Kelola</span>
@@ -211,25 +203,21 @@ export function AdminDashboard() {
         </div>
 
         {/* Class Schedules */}
-        <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="liquid-glass-card p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Jadwal Kuliah
             </span>
-            <Calendar size={16} style={{ color: 'var(--color-accent)' }} />
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-[var(--color-accent)] border border-blue-500/20">
+              <Calendar size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.schedules}
           </div>
           <Link
             to="/admin/jadwal"
-            className="text-xs font-bold flex items-center gap-1 hover:underline"
+            className="text-xs font-bold flex items-center gap-1 hover:underline w-fit"
             style={{ color: 'var(--color-accent)' }}
           >
             <span>Kelola</span>
@@ -238,25 +226,21 @@ export function AdminDashboard() {
         </div>
 
         {/* Exam Schedules */}
-        <div
-          className="p-4 rounded-xl border flex flex-col justify-between gap-3"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="liquid-glass-card p-5 flex flex-col justify-between gap-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
               Jadwal Ujian
             </span>
-            <Award size={16} style={{ color: 'var(--color-accent)' }} />
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-[var(--color-accent)] border border-blue-500/20">
+              <Award size={16} />
+            </div>
           </div>
-          <div className="text-3xl font-extrabold" style={{ color: 'var(--color-text)' }}>
+          <div className="text-3xl font-black" style={{ color: 'var(--color-text)' }}>
             {loading ? '...' : counts.exams}
           </div>
           <Link
             to="/admin/ujian"
-            className="text-xs font-bold flex items-center gap-1 hover:underline"
+            className="text-xs font-bold flex items-center gap-1 hover:underline w-fit"
             style={{ color: 'var(--color-accent)' }}
           >
             <span>Kelola Ujian</span>

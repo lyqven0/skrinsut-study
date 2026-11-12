@@ -617,17 +617,25 @@ export function Latihan() {
   return (
     <div className="flex flex-col items-center justify-center py-6 max-w-md mx-auto text-center gap-5">
       <div
-        className="w-20 h-20 rounded-full flex items-center justify-center text-white shadow-lg"
-        style={{ backgroundColor: percentage >= 70 ? '#10b981' : '#f59e0b' }}
+        className="w-20 h-20 rounded-2xl flex items-center justify-center text-white shadow-xl relative overflow-hidden"
+        style={{
+          background: percentage >= 70
+            ? 'linear-gradient(135deg, #10b981, #059669)'
+            : 'linear-gradient(135deg, #f59e0b, #d97706)',
+          boxShadow: percentage >= 70
+            ? '0 12px 30px -4px rgba(16, 185, 129, 0.4)'
+            : '0 12px 30px -4px rgba(245, 158, 11, 0.4)',
+        }}
       >
-        <Award size={40} />
+        <div className="absolute inset-0 bg-white/20 backdrop-blur-[1px]" />
+        <Award size={40} className="relative z-10 drop-shadow-md" />
       </div>
 
       <div>
-        <h2 className="text-2xl font-black tracking-tight" style={{ color: 'var(--color-text)' }}>
+        <h2 className="text-2xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
           Latihan Selesai!
         </h2>
-        <p className="text-xs sm:text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>
+        <p className="text-xs sm:text-sm mt-1.5 font-medium" style={{ color: 'var(--color-text-secondary)' }}>
           {percentage >= 80
             ? 'Luar biasa! Pemahamanmu sangat matang.'
             : percentage >= 60
@@ -637,28 +645,22 @@ export function Latihan() {
       </div>
 
       {/* Score card */}
-      <div
-        className="w-full p-6 rounded-2xl border flex items-center justify-around"
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
-      >
+      <div className="w-full p-6 rounded-2xl liquid-glass-card flex items-center justify-around">
         <div>
-          <span className="text-xs font-semibold block" style={{ color: 'var(--color-text-secondary)' }}>
+          <span className="text-xs font-semibold block uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
             Skor Akhir
           </span>
-          <span className="text-3xl font-black" style={{ color: 'var(--color-accent)' }}>
+          <span className="text-3xl font-black bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-300 bg-clip-text text-transparent">
             {percentage}%
           </span>
         </div>
-        <div className="w-px h-10 bg-gray-200 dark:bg-neutral-800" />
+        <div className="w-px h-10 bg-slate-200 dark:bg-white/10" />
         <div>
-          <span className="text-xs font-semibold block" style={{ color: 'var(--color-text-secondary)' }}>
+          <span className="text-xs font-semibold block uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
             Benar / Total
           </span>
-          <span className="text-2xl font-extrabold" style={{ color: 'var(--color-text)' }}>
-            {score} <span className="text-sm font-normal text-gray-400">/ {questions.length}</span>
+          <span className="text-2xl font-black" style={{ color: 'var(--color-text)' }}>
+            {score} <span className="text-sm font-normal text-slate-400 dark:text-slate-500">/ {questions.length}</span>
           </span>
         </div>
       </div>
@@ -669,7 +671,7 @@ export function Latihan() {
           <button
             type="button"
             onClick={() => handleStartQuiz(true)}
-            className="w-full h-12 rounded-xl text-sm font-bold border border-amber-300 text-amber-700 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/30 dark:border-amber-800 dark:text-amber-300 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full h-12 rounded-xl text-sm font-bold border border-amber-500/30 text-amber-600 dark:text-amber-400 bg-amber-500/10 hover:bg-amber-500/15 backdrop-blur-md transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:scale-[1.01] active:scale-[0.99]"
           >
             <RotateCcw size={16} />
             <span>Ulangi {wrongQuestions.length} Soal yang Salah</span>
@@ -679,8 +681,7 @@ export function Latihan() {
         <button
           type="button"
           onClick={() => setQuizState('setup')}
-          className="w-full h-12 rounded-xl text-sm font-bold text-white shadow-sm transition-transform active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
-          style={{ backgroundColor: 'var(--color-accent)' }}
+          className="liquid-button-primary w-full h-12 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2 cursor-pointer"
         >
           <Sparkles size={16} />
           <span>Pilih Latihan Lain</span>
@@ -689,7 +690,7 @@ export function Latihan() {
         <button
           type="button"
           onClick={() => navigate('/belajar')}
-          className="text-xs font-semibold text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 py-1"
+          className="text-xs font-semibold text-slate-500 hover:text-[var(--color-accent)] dark:text-slate-400 py-1 transition-colors"
         >
           Kembali ke Pusat Belajar
         </button>

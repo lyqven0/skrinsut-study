@@ -98,10 +98,10 @@ export function BelajarCourse() {
       <div>
         <Link
           to="/belajar"
-          className="inline-flex items-center gap-1 text-xs font-semibold mb-2 hover:underline"
-          style={{ color: 'var(--color-text-secondary)' }}
+          className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full liquid-glass-pill mb-3 transition-colors hover:text-[var(--color-accent)]"
+          style={{ color: 'var(--color-text-secondary)', border: '1px solid var(--glass-border)' }}
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={15} />
           <span>Kembali ke Semua Matkul</span>
         </Link>
 
@@ -109,22 +109,23 @@ export function BelajarCourse() {
           <div>
             <div className="flex items-center gap-2">
               <span
-                className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider"
+                className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider liquid-glass-pill"
                 style={{
-                  backgroundColor: 'var(--color-bg-secondary)',
+                  backgroundColor: 'rgba(79, 110, 247, 0.1)',
                   color: 'var(--color-accent)',
+                  border: '1px solid rgba(79, 110, 247, 0.25)',
                 }}
               >
                 {course.kode}
               </span>
               {course.dosen && (
-                <span className="text-xs text-gray-500 flex items-center gap-1">
-                  <User size={12} />
+                <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium">
+                  <User size={13} className="opacity-70" />
                   <span>{course.dosen}</span>
                 </span>
               )}
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight mt-1" style={{ color: 'var(--color-text)' }}>
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight mt-1.5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
               {course.nama}
             </h1>
           </div>
@@ -132,8 +133,7 @@ export function BelajarCourse() {
           <div className="flex items-center gap-2">
             <Link
               to={`/latihan?courseId=${course.id}`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold text-white shadow-sm transition-transform active:scale-95"
-              style={{ backgroundColor: 'var(--color-accent)' }}
+              className="liquid-button-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white cursor-pointer"
             >
               <Sparkles size={15} />
               <span>Mulai Latihan Soal</span>
@@ -142,8 +142,8 @@ export function BelajarCourse() {
             <button
               type="button"
               onClick={() => setIsFormOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border transition-colors hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer"
-              style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold liquid-glass-card hover:border-blue-400/50 cursor-pointer"
+              style={{ color: 'var(--color-text)' }}
             >
               <Plus size={15} />
               <span>Usulkan Materi</span>
@@ -152,18 +152,12 @@ export function BelajarCourse() {
         </div>
       </div>
 
-      {/* Material Progress Tracker (Phase 4) */}
+      {/* Material Progress Tracker */}
       {materials.length > 0 && (
-        <div
-          className="p-4 rounded-xl border flex flex-col gap-2"
-          style={{
-            backgroundColor: 'var(--color-card)',
-            borderColor: 'var(--color-border)',
-          }}
-        >
+        <div className="liquid-glass-card p-4 flex flex-col gap-2.5">
           <div className="flex items-center justify-between text-xs">
             <span className="font-bold flex items-center gap-1.5" style={{ color: 'var(--color-text)' }}>
-              <CheckCircle2 size={14} className="text-emerald-500" />
+              <CheckCircle2 size={15} className="text-emerald-500" />
               <span>Progres Belajar Materi:</span>
             </span>
             <span className="font-bold text-[var(--color-accent)] font-mono">
@@ -171,27 +165,21 @@ export function BelajarCourse() {
             </span>
           </div>
 
-          <div className="w-full h-2 rounded-full overflow-hidden bg-gray-100 dark:bg-neutral-800">
+          <div className="w-full h-2 rounded-full overflow-hidden bg-slate-200/50 dark:bg-white/10 backdrop-blur-sm">
             <div
-              className="h-full rounded-full transition-all duration-300"
-              style={{ width: `${progressPercent}%`, backgroundColor: '#10b981' }}
+              className="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-400 transition-all duration-500 shadow-[0_0_12px_rgba(16,185,129,0.5)]"
+              style={{ width: `${progressPercent}%` }}
             />
           </div>
         </div>
       )}
 
       {/* Filter Row */}
-      <div
-        className="p-3.5 rounded-xl border flex items-center justify-between gap-3 flex-wrap text-xs"
-        style={{
-          backgroundColor: 'var(--color-card)',
-          borderColor: 'var(--color-border)',
-        }}
-      >
+      <div className="liquid-glass-card p-3.5 flex items-center justify-between gap-3 flex-wrap text-xs">
         <div className="flex items-center gap-2">
           <Filter size={14} style={{ color: 'var(--color-text-secondary)' }} />
           <span className="font-semibold" style={{ color: 'var(--color-text)' }}>
-            Filter:
+            Filter Materi:
           </span>
         </div>
 
@@ -199,8 +187,8 @@ export function BelajarCourse() {
           <select
             value={selectedTopik}
             onChange={(e) => setSelectedTopik(e.target.value)}
-            className="h-8 px-2 rounded-md border bg-transparent font-medium"
-            style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+            className="h-8 px-2.5 rounded-lg border bg-white/50 dark:bg-black/40 font-medium backdrop-blur-md transition-colors"
+            style={{ borderColor: 'var(--glass-border)', color: 'var(--color-text)' }}
           >
             <option value="semua" className="dark:bg-neutral-900">Semua Topik</option>
             {availableTopics.map((topik) => (
@@ -213,8 +201,8 @@ export function BelajarCourse() {
           <select
             value={selectedJenis}
             onChange={(e) => setSelectedJenis(e.target.value)}
-            className="h-8 px-2 rounded-md border bg-transparent font-medium"
-            style={{ borderColor: 'var(--color-border)', color: 'var(--color-text)' }}
+            className="h-8 px-2.5 rounded-lg border bg-white/50 dark:bg-black/40 font-medium backdrop-blur-md transition-colors"
+            style={{ borderColor: 'var(--glass-border)', color: 'var(--color-text)' }}
           >
             <option value="semua" className="dark:bg-neutral-900">Semua Jenis</option>
             <option value="slide" className="dark:bg-neutral-900">Slide</option>
